@@ -1,0 +1,302 @@
+[
+    {
+        "name": "Warrior",
+        "tier": 1,
+        "id": 1
+    },
+    {
+        "name": "Mage",
+        "tier": 1,
+        "id": 2
+    },
+    {
+        "name": "Thief",
+        "tier": 1,
+        "id": 3
+    },
+    {
+        "name": "Knight",
+        "tier": 2,
+        "id": 4
+    },
+    {
+        "name": "Paladin",
+        "tier": 2,
+        "id": 5
+    },
+    {
+        "name": "Archmage",
+        "tier": 2,
+        "id": 6
+    },
+    {
+        "name": "Rogue",
+        "tier": 2,
+        "id": 7
+    },
+    {
+        "name": "Spellsword",
+        "tier": 4,
+        "id": 8
+    },
+    {
+        "name": "Mystic",
+        "tier": 4,
+        "id": 9
+    },
+    {
+        "name": "Adept",
+        "tier": 4,
+        "id": 10
+    },
+    {
+        "name": "Dragoon",
+        "tier": 5,
+        "id": 11
+    },
+    {
+        "name": "Druid",
+        "tier": 5,
+        "id": 12
+    },
+    {
+        "name": "Wanderer",
+        "tier": 2,
+        "id": 13
+    },
+    {
+        "name": "Warlock",
+        "tier": 2,
+        "id": 14
+    },
+    {
+        "name": "Rune Knight",
+        "tier": 2,
+        "id": 15
+    },
+    {
+        "name": "Royal Guard",
+        "tier": 2,
+        "id": 16
+    },
+    {
+        "name": "Legionnaire",
+        "tier": 2,
+        "id": 17
+    },
+    {
+        "name": "Storm Knight",
+        "tier": 2,
+        "id": 18
+    },
+    {
+        "name": "Scorcher",
+        "tier": 2,
+        "id": 19
+    },
+    {
+        "name": "Frost Mage",
+        "tier": 2,
+        "id": 20
+    },
+    {
+        "name": "Battle Master",
+        "tier": 3,
+        "id": 21
+    },
+    {
+        "name": "Centurion",
+        "tier": 3,
+        "id": 22
+    },
+    {
+        "name": "Sorcerer",
+        "tier": 3,
+        "id": 23
+    },
+    {
+        "name": "Majestic",
+        "tier": 5,
+        "id": 24
+    },
+    {
+        "name": "Battlemage",
+        "tier": 6,
+        "id": 25
+    },
+    {
+        "name": "Grand Mystic",
+        "tier": 6,
+        "id": 26
+    },
+    {
+        "name": "Blademaster",
+        "tier": 6,
+        "id": 27
+    },
+    {
+        "name": "Ifrit",
+        "tier": 8,
+        "id": 28
+    },
+    {
+        "name": "Taranis",
+        "tier": 8,
+        "id": 29
+    },
+    {
+        "name": "Leviathan",
+        "tier": 8,
+        "id": 30
+    },
+    {
+        "name": "Gaia",
+        "tier": 8,
+        "id": 31
+    },
+    {
+        "name": "Archdruid",
+        "tier": 7,
+        "id": 32
+    },
+    {
+        "name": "Dragon Knight",
+        "tier": 7,
+        "id": 33
+    },
+    {
+        "name": "Majistrate",
+        "tier": 7,
+        "id": 34
+    },
+    {
+        "name": "Arcanic",
+        "tier": 8,
+        "id": 35
+    },
+    {
+        "name": "Atlas Vanguard",
+        "tier": 8,
+        "id": 36
+    },
+    {
+        "name": "Nekromancer",
+        "tier": 8,
+        "id": 37
+    },
+    {
+        "name": "Freyr",
+        "tier": 8,
+        "id": 38
+    },
+    {
+        "name": "Conjuror",
+        "tier": 3,
+        "id": 39
+    },
+    {
+        "name": "Phalanx",
+        "tier": 3,
+        "id": 40
+    },
+    {
+        "name": "Warlord",
+        "tier": 3,
+        "id": 41
+    },
+    {
+        "name": "Runeblade",
+        "tier": 4,
+        "id": 42
+    },
+    {
+        "name": "Augur",
+        "tier": 4,
+        "id": 43
+    },
+    {
+        "name": "Gladiator",
+        "tier": 4,
+        "id": 44
+    },
+    {
+        "name": "Titanguard",
+        "tier": 9,
+        "id": 45
+    },
+    {
+        "name": "Omnimancer",
+        "tier": 9,
+        "id": 46
+    },
+    {
+        "name": "Nyx",
+        "tier": 9,
+        "id": 47
+    },
+    {
+        "name": "Bahamut",
+        "tier": 9,
+        "id": 48
+    },
+    {
+        "name": "Grand Ifrit",
+        "tier": 9,
+        "id": 49
+    },
+    {
+        "name": "Noble Gaia",
+        "tier": 9,
+        "id": 50
+    },
+    {
+        "name": "High Taranis",
+        "tier": 9,
+        "id": 51
+    },
+    {
+        "name": "Great Leviathan",
+        "tier": 9,
+        "id": 52
+    },
+    {
+        "name": "Heretic",
+        "tier": 10,
+        "id": 53
+    },
+    {
+        "name": "Gilgamesh",
+        "tier": 10,
+        "id": 54
+    },
+    {
+        "name": "Realmshifter",
+        "tier": 10,
+        "id": 55
+    },
+    {
+        "name": "Beowulf",
+        "tier": 10,
+        "id": 56
+    },
+    {
+        "name": "Deity",
+        "tier": 10,
+        "id": 57
+    },
+    {
+        "name": "Attuner",
+        "tier": 7,
+        "id": 58
+    },
+    {
+        "name": "Grand Attuner",
+        "tier": 8,
+        "id": 59
+    },
+    {
+        "name": "Summoner",
+        "tier": 9,
+        "id": 60
+    }
+]

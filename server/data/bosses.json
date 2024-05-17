@@ -1,0 +1,692 @@
+[
+    {
+        "name": "Goblin Lord",
+        "tier": 1,
+        "id": 20
+    },
+    {
+        "name": "Minotaur",
+        "tier": 1,
+        "id": 21
+    },
+    {
+        "name": "Draconian Lord",
+        "tier": 2,
+        "id": 35
+    },
+    {
+        "name": "Demon Prince",
+        "tier": 2,
+        "id": 36
+    },
+    {
+        "name": "Lizarr Lord",
+        "tier": 3,
+        "id": 68
+    },
+    {
+        "name": "Demon Knight",
+        "tier": 3,
+        "id": 73
+    },
+    {
+        "name": "Lord of Wolves",
+        "tier": 3,
+        "id": 74
+    },
+    {
+        "name": "Lost Pharaoh",
+        "tier": 3,
+        "id": 75
+    },
+    {
+        "name": "Camazotz",
+        "tier": 4,
+        "id": 76
+    },
+    {
+        "name": "Undead Golem",
+        "tier": 4,
+        "id": 77
+    },
+    {
+        "name": "Orc Lord",
+        "tier": 4,
+        "id": 78
+    },
+    {
+        "name": "Troll",
+        "tier": 4,
+        "id": 79
+    },
+    {
+        "name": "Carman's Gargoyle",
+        "tier": 4,
+        "id": 99
+    },
+    {
+        "name": "Great Gazer",
+        "tier": 5,
+        "id": 100
+    },
+    {
+        "name": "Great Jinn",
+        "tier": 5,
+        "id": 101
+    },
+    {
+        "name": "Sluagh",
+        "tier": 5,
+        "id": 102
+    },
+    {
+        "name": "Vampire Lord",
+        "tier": 5,
+        "id": 103
+    },
+    {
+        "name": "Carman",
+        "tier": 6,
+        "id": 108
+    },
+    {
+        "name": "Cerberus",
+        "tier": 6,
+        "id": 109
+    },
+    {
+        "name": "Ronin",
+        "tier": 6,
+        "id": 110
+    },
+    {
+        "name": "Ankou",
+        "tier": 7,
+        "id": 111
+    },
+    {
+        "name": "Tiamat",
+        "tier": 7,
+        "id": 112
+    },
+    {
+        "name": "Finfolk",
+        "tier": 6,
+        "id": 127
+    },
+    {
+        "name": "Arachne",
+        "tier": 2,
+        "id": 128
+    },
+    {
+        "name": "Fenrir",
+        "tier": 7,
+        "id": 133
+    },
+    {
+        "name": "Fafnir",
+        "tier": 8,
+        "id": 140
+    },
+    {
+        "name": "Ljosalfar Lord",
+        "tier": 8,
+        "id": 141
+    },
+    {
+        "name": "Death Worm",
+        "tier": 5,
+        "id": 150
+    },
+    {
+        "name": "Colossus",
+        "tier": 7,
+        "id": 159
+    },
+    {
+        "name": "Mimic King",
+        "tier": 4,
+        "id": 161
+    },
+    {
+        "name": "Balor King",
+        "tier": 9,
+        "id": 169
+    },
+    {
+        "name": "Twilight Knight",
+        "tier": 3,
+        "id": 170
+    },
+    {
+        "name": "Behemoth",
+        "tier": 6,
+        "id": 174
+    },
+    {
+        "name": "Cockatrice",
+        "tier": 8,
+        "id": 175
+    },
+    {
+        "name": "Nin-kilim",
+        "tier": 9,
+        "id": 176
+    },
+    {
+        "name": "Balor Worm",
+        "tier": 5,
+        "id": 188
+    },
+    {
+        "name": "Gargouille",
+        "tier": 4,
+        "id": 189
+    },
+    {
+        "name": "Enlightened Prince",
+        "tier": 7,
+        "id": 190
+    },
+    {
+        "name": "Great Cockatrice",
+        "tier": 8,
+        "id": 191
+    },
+    {
+        "name": "Typhon",
+        "tier": 7,
+        "id": 192
+    },
+    {
+        "name": "Woodland Lord",
+        "tier": 6,
+        "id": 195
+    },
+    {
+        "name": "Dokkalfar Lord",
+        "tier": 8,
+        "id": 196
+    },
+    {
+        "name": "Carman of the Underworld",
+        "tier": 6,
+        "id": 197
+    },
+    {
+        "name": "Fallen Ithra, the White Knight",
+        "tier": 9,
+        "id": 198
+    },
+    {
+        "name": "Fallen Thor, the Storm God",
+        "tier": 9,
+        "id": 199
+    },
+    {
+        "name": "Fallen Ra, the Seer",
+        "tier": 7,
+        "id": 200
+    },
+    {
+        "name": "Cavelord",
+        "tier": 7,
+        "id": 202
+    },
+    {
+        "name": "Bandit Lord",
+        "tier": 1,
+        "id": 206
+    },
+    {
+        "name": "Fallen Vulcan, the Red Knight",
+        "tier": 9,
+        "id": 209
+    },
+    {
+        "name": "Fallen Demeter, the Earth Magus",
+        "tier": 9,
+        "id": 210
+    },
+    {
+        "name": "Ancient Draugr Lord",
+        "tier": 6,
+        "id": 221
+    },
+    {
+        "name": "Giant Red Basilisk",
+        "tier": 7,
+        "id": 228
+    },
+    {
+        "name": "Draugr Lord",
+        "tier": 3,
+        "id": 229
+    },
+    {
+        "name": "Great Odok",
+        "tier": 6,
+        "id": 236
+    },
+    {
+        "name": "Dark Elf Lord",
+        "tier": 5,
+        "id": 237
+    },
+    {
+        "name": "Racul",
+        "tier": 8,
+        "id": 240
+    },
+    {
+        "name": "Odok Golem",
+        "tier": 9,
+        "id": 241
+    },
+    {
+        "name": "Cthulhu",
+        "tier": 8,
+        "id": 244
+    },
+    {
+        "name": "Giant Basilisk",
+        "tier": 6,
+        "id": 248
+    },
+    {
+        "name": "Mammon",
+        "tier": 9,
+        "id": 250
+    },
+    {
+        "name": "Castor",
+        "tier": 5,
+        "id": 253
+    },
+    {
+        "name": "Pollux",
+        "tier": 8,
+        "id": 255
+    },
+    {
+        "name": "Heimdall",
+        "tier": 8,
+        "id": 266
+    },
+    {
+        "name": "Fallen Knight Vulcan",
+        "tier": 8,
+        "id": 268
+    },
+    {
+        "name": "Pyre",
+        "tier": 5,
+        "id": 269
+    },
+    {
+        "name": "Mighty Griffin",
+        "tier": 9,
+        "id": 275
+    },
+    {
+        "name": "Griffin",
+        "tier": 5,
+        "id": 276
+    },
+    {
+        "name": "Odin",
+        "tier": 10,
+        "id": 280
+    },
+    {
+        "name": "Hades",
+        "tier": 10,
+        "id": 281
+    },
+    {
+        "name": "Anubis",
+        "tier": 10,
+        "id": 297
+    },
+    {
+        "name": "King Gradlon",
+        "tier": 10,
+        "id": 303
+    },
+    {
+        "name": "Arisen Demeter, the Earth Magus",
+        "tier": 10,
+        "id": 308
+    },
+    {
+        "name": "Queen of Dokkalfar",
+        "tier": 8,
+        "id": 309
+    },
+    {
+        "name": "Arisen Ithra, the White Knight",
+        "tier": 10,
+        "id": 311
+    },
+    {
+        "name": "Arisen Thor, the Storm God",
+        "tier": 10,
+        "id": 312
+    },
+    {
+        "name": "Arisen Vulcan, the Red Knight",
+        "tier": 10,
+        "id": 313
+    },
+    {
+        "name": "Arisen Mammon",
+        "tier": 10,
+        "id": 314
+    },
+    {
+        "name": "Immortal Lord",
+        "tier": 9,
+        "id": 317
+    },
+    {
+        "name": "Kelpie",
+        "tier": 9,
+        "id": 326
+    },
+    {
+        "name": "Hydra",
+        "tier": 7,
+        "id": 332
+    },
+    {
+        "name": "Kraken",
+        "tier": 9,
+        "id": 334
+    },
+    {
+        "name": "Fallen Realmshifter",
+        "tier": 10,
+        "id": 368
+    },
+    {
+        "name": "Fallen Gilgamesh",
+        "tier": 10,
+        "id": 369
+    },
+    {
+        "name": "Fallen Heretic",
+        "tier": 10,
+        "id": 370
+    },
+    {
+        "name": "Fallen Beowulf",
+        "tier": 10,
+        "id": 371
+    },
+    {
+        "name": "Arisen King Meliodas",
+        "tier": 9,
+        "id": 372
+    },
+    {
+        "name": "False King Meliodas",
+        "tier": 6,
+        "id": 373
+    },
+    {
+        "name": "Glatisant",
+        "tier": 9,
+        "id": 374
+    },
+    {
+        "name": "Hobgoblin Lord",
+        "tier": 3,
+        "id": 376
+    },
+    {
+        "name": "Terrifying Ghost",
+        "tier": 8,
+        "id": 377
+    },
+    {
+        "name": "Dagda",
+        "tier": 6,
+        "id": 378
+    },
+    {
+        "name": "Arisen Balor King",
+        "tier": 10,
+        "id": 383
+    },
+    {
+        "name": "Arisen Dagda",
+        "tier": 10,
+        "id": 384
+    },
+    {
+        "name": "Arisen Alfar Lord",
+        "tier": 9,
+        "id": 390
+    },
+    {
+        "name": "Baldr",
+        "tier": 10,
+        "id": 392
+    },
+    {
+        "name": "Elite Kobold Lord",
+        "tier": 10,
+        "id": 409
+    },
+    {
+        "name": "Kobold Lord",
+        "tier": 8,
+        "id": 410
+    },
+    {
+        "name": "Elite Balor Worm",
+        "tier": 5,
+        "id": 411
+    },
+    {
+        "name": "Spooky Ghost",
+        "tier": 4,
+        "id": 412
+    },
+    {
+        "name": "Alfar Lord",
+        "tier": 5,
+        "id": 413
+    },
+    {
+        "name": "Elite Orc Lord",
+        "tier": 9,
+        "id": 414
+    },
+    {
+        "name": "Fallen Ashen Phoenix",
+        "tier": 9,
+        "id": 418
+    },
+    {
+        "name": "Ascended Pledge",
+        "tier": 5,
+        "id": 420
+    },
+    {
+        "name": "Kin of Kerberos",
+        "tier": 5,
+        "id": 424
+    },
+    {
+        "name": "Arisen Kin of Kerberos",
+        "tier": 9,
+        "id": 425
+    },
+    {
+        "name": "Amadan",
+        "tier": 8,
+        "id": 439
+    },
+    {
+        "name": "Fallen Hero, Lover Lost",
+        "tier": 5,
+        "id": 444
+    },
+    {
+        "name": "Enlightened Queen",
+        "tier": 7,
+        "id": 445
+    },
+    {
+        "name": "Enlightened King",
+        "tier": 7,
+        "id": 446
+    },
+    {
+        "name": "Knight Sirus",
+        "tier": 9,
+        "id": 447
+    },
+    {
+        "name": "Medea, Arisen Queen",
+        "tier": 10,
+        "id": 448
+    },
+    {
+        "name": "Agathodaemon",
+        "tier": 7,
+        "id": 461
+    },
+    {
+        "name": "Bashe, Hungry One",
+        "tier": 9,
+        "id": 462
+    },
+    {
+        "name": "Gorynych, Son of Mountains",
+        "tier": 10,
+        "id": 463
+    },
+    {
+        "name": "Illuyanka, Made of Stone",
+        "tier": 8,
+        "id": 464
+    },
+    {
+        "name": "Lotan, Coiled One",
+        "tier": 5,
+        "id": 465
+    },
+    {
+        "name": "Quetzalcoatl, Feathered One",
+        "tier": 9,
+        "id": 466
+    },
+    {
+        "name": "Vritra the Steadfast",
+        "tier": 6,
+        "id": 467
+    },
+    {
+        "name": "Ymir Amphiptere",
+        "tier": 10,
+        "id": 468
+    },
+    {
+        "name": "Zaltys, Friendly One",
+        "tier": 7,
+        "id": 469
+    },
+    {
+        "name": "Shade of Achlys, the Red Dagger",
+        "tier": 7,
+        "id": 470
+    },
+    {
+        "name": "Shade of Charon, Grand Summoner",
+        "tier": 9,
+        "id": 471
+    },
+    {
+        "name": "Shade of Rhada, the Great Shield",
+        "tier": 8,
+        "id": 472
+    },
+    {
+        "name": "Shadow of Achlys, the Red Dagger",
+        "tier": 5,
+        "id": 473
+    },
+    {
+        "name": "Shadow of Charon, Grand Summoner",
+        "tier": 7,
+        "id": 474
+    },
+    {
+        "name": "Shadow of Rhada, the Great Shield",
+        "tier": 6,
+        "id": 475
+    },
+    {
+        "name": "Aegir",
+        "tier": 6,
+        "id": 500
+    },
+    {
+        "name": "Eistla",
+        "tier": 8,
+        "id": 501
+    },
+    {
+        "name": "Gymir",
+        "tier": 7,
+        "id": 502
+    },
+    {
+        "name": "Arisen Aegir",
+        "tier": 10,
+        "id": 503
+    },
+    {
+        "name": "Arisen Eistla",
+        "tier": 10,
+        "id": 504
+    },
+    {
+        "name": "Arisen Gymir",
+        "tier": 10,
+        "id": 505
+    },
+    {
+        "name": "Fallen Deity",
+        "tier": 10,
+        "id": 506
+    },
+    {
+        "name": "Great Ancient Dragon",
+        "tier": 10,
+        "id": 510
+    },
+    {
+        "name": "Medusa",
+        "tier": 10,
+        "id": 514
+    },
+    {
+        "name": "Beithir",
+        "tier": 8,
+        "id": 530
+    },
+    {
+        "name": "Large Wisp",
+        "tier": 2,
+        "id": 546
+    },
+    {
+        "name": "Manticore",
+        "tier": 8,
+        "id": 552
+    }
+]
