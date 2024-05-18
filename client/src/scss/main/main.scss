@@ -1,0 +1,52 @@
+@import "../vars";
+@import "nav";
+@import "monster-window";
+@import "shop";
+
+//the main window
+section#main {
+    height: 100%;
+    width: 100%;
+    background: #000;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+
+    .fc {
+        //fc, fcc
+        &, &c {
+            display: flex;
+            align-items: center;
+        }
+        //fcc
+        &c {
+            justify-content: center;
+        }
+    }
+
+    div.shop {
+        @include applyShopWindow();
+    }
+
+    main {
+        display: grid;
+        grid-template-rows: 52px 1fr;
+
+        * {
+            user-select: none;
+        }
+
+
+        nav.level-change {
+            @include applyNavigationBar();
+        }
+
+        div.monster-window {
+            @include applyMonsterWindow();
+        }
+    }
+}
+
+body {
+    display: grid;
+    grid-template-rows: 70px calc(100vh - 70px);
+}

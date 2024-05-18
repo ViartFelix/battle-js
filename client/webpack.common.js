@@ -2,7 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const ENTRY_PATH = path.resolve(__dirname, "src/js")
+const ENTRY_PATH = path.resolve(__dirname, "src/ts")
 const DIST_PATH = path.resolve(__dirname, "public/dist")
 
 module.exports = {

@@ -1,0 +1,43 @@
+@import "../_vars";
+
+@mixin applyNavigationBar() {
+    width: 100%;
+    background: #0f0;
+    display: grid;
+    grid-template-columns: minmax(2rem, 1fr) 3fr minmax(2rem, 1fr);
+    justify-content: space-between;
+    border-bottom: $border;
+
+    [data-btn] {
+        &.disabled {
+            iconify-icon {
+                opacity: 0 !important;
+            }
+        }
+    }
+
+    div.level-monsters {
+        column-gap: 5rem;
+
+        p.level {
+            [data-display] {
+                margin-left: 1rem;
+            }
+        }
+
+        div.remain {
+            iconify-icon {
+                margin-left: 0.5rem;
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    & > * {
+        font-size: 2rem;
+    }
+
+    &, & > * {
+        height: fit-content;
+    }
+}

@@ -1,0 +1,31 @@
+@import "../vars";
+
+header {
+    width: 100%;
+    padding: 0.5rem;
+    background: #ee842b;
+    border-bottom: $border;
+
+    div.header-wrapper {
+        width: 100%;
+        padding: 0.5rem 5rem;
+        display: flex;
+        align-items: center;
+        column-gap: 5rem;
+
+        & > p {
+            display: flex;
+            align-items: center;
+
+            span[data-display] {
+                margin-left: 0.25rem;
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+
+            iconify-icon {
+                font-size: 2rem;
+            }
+        }
+    }
+}

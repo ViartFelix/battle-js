@@ -1,29 +1,130 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="fr">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OrnaPG</title>
+    <meta name="description" content="">
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-  <link rel="icon" href="/client/favicon.icocon.ico" sizes="any">
-  <link rel="icon" href="/client/icon.svgcon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
-
-  <meta name="theme-color" content="#fafafa">
+    <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+    <header>
+        <div class="header-wrapper">
+            <!--gold-->
+            <p>
+                <iconify-icon icon="bitcoin-icons:coins-filled"></iconify-icon>
+                <span data-display="gold">0</span>
+            </p>
+
+            <!--dps-->
+            <p>
+                <iconify-icon icon="ri:sword-fill"></iconify-icon>
+                <span data-display="dps">0</span>
+            </p>
+        </div>
+    </header>
+
+    <section id="main">
+        <!--shop-->
+        <div class="shop" data-el="shop">
+            <div class="shop-container">
+
+            </div>
+
+        </div>
+
+        <!--main game window-->
+        <main>
+            <nav class="level-change fc">
+                <button type="button" class="disabled fcc" data-display="previous" data-btn="level-change">
+                    <iconify-icon icon="mdi:chevron-left"></iconify-icon>
+                </button>
+
+                <div class="level-monsters fcc">
+                    <p class="level fc">
+                        Level <span data-display="level">1</span>
+                    </p>
+
+                    <div class="remain fc">
+                        <p class="numbers">
+                            <span data-display="remain-current">0</span> / <span data-display="remain-total">10</span>
+                        </p>
+
+                        <iconify-icon icon="mdi:emoticon-devil"></iconify-icon>
+                    </div>
+                </div>
+
+                <button type="button" class="fcc" data-display="next" data-btn="level-change">
+                    <iconify-icon icon="mdi:chevron-right"></iconify-icon>
+                </button>
+            </nav>
+
+            <div class="monster-window fcc">
+                <div class="monster-container fcc">
+                    <div class="monster-display fcc">
+                        <img class="asset fcc" src="ennemies/15.png" data-display="monster">
+                    </div>
+
+                    <div class="hp-time">
+                        <p class="info-bar fcc" data-display="hp-bar">
+                            <span data-display="current-hp">10</span>
+                            <iconify-icon icon="mdi:heart"></iconify-icon>
+                            <span style="background: rgba(255, 0, 3);" class="displayer"></span>
+                        </p>
+
+                        <p class="info-bar fcc hidden" data-display="timer-bar">
+                            <span data-display="current-time">32s</span>
+                            <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                            <span style="background-color: #eb7aff;" class="displayer"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <section style="display: none !important;" id="templates">
+        <template data-template="shop-item">
+            <div class="shop-item" data-shop-item="0">
+                <div class="class-container fc">
+                    <img class="asset" data-display="class-img" src="">
+
+                    <div class="class-info">
+                        <p class="class-name-level">
+                            <span data-display="class-name"></span>
+                            <span data-display="class-level"></span>
+                        </p>
+
+                        <div class="class-stats">
+                            <p class="class-gold">
+                                <span data-display="class-gold"></span>
+                                <iconify-icon icon="bitcoin-icons:coins-filled"></iconify-icon>
+                            </p>
+                            <p class="class-dps">
+                                <span data-display="class-dps"></span>
+                                <iconify-icon icon="ri:sword-fill"></iconify-icon>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="class-btns">
+                    <button data-button="lvl-up">
+                        <iconify-icon icon="mdi:chevron-up"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </template>
+    </section>
 </body>
 
 </html>

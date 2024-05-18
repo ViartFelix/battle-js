@@ -1,6 +1,6 @@
 {
   "name": "battle-js",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "",
   "private": true,
   "keywords": [
@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "css-loader": "^7.1.1",
+    "iconify": "^1.4.0",
+    "iconify-icon": "^2.1.0",
     "mini-css-extract-plugin": "^2.9.0",
     "style-loader": "^4.0.0"
   }
