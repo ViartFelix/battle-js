@@ -1,5 +1,6 @@
 import {Socket} from "socket.io";
-import SocketService, { socketService } from "../services/SocketService"
+import { socketService } from "../services/SocketService"
+import { classService } from "../services/ClassService";
 
 export default class ClientHandler {
     readonly socket: Socket;
@@ -11,16 +12,27 @@ export default class ClientHandler {
         this.id = this.socket.id
 
         this.bindEvents()
+        this.returnClasses();
     }
 
     /**
-     * Bind necessary events to the sockets
+     * Returns classes for the shop
+     * @private
+     */
+    private returnClasses()
+    {
+        const data = classService.getClasses()
+        socketService.emitToClient(this, 'shop', data);
+    }
+
+    /**
+     * Bind all necessary events to the sockets
      * @private
      */
     private bindEvents(): void
     {
         //on disconnect, attempt to remove the client from the manager
-        this.socket.on('disconnect', ()=>{
+        this.socket.on('disconnect', ()=> {
             socketService.removeClient(this);
         });
     }

@@ -2,7 +2,8 @@ import {Server, Socket} from "socket.io";
 import ClientHandler from "../managers/ClientHandler";
 import {DefaultEventsMap} from "socket.io/dist/typed-events";
 
-export default class SocketService {
+
+class SocketService {
     /** The io server */
     private readonly io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 
@@ -32,7 +33,7 @@ export default class SocketService {
     }
 
     /**
-     * Add a client
+     * Add a client to the list, for better management
      * @param socket
      */
     public addClient(socket: Socket)
@@ -49,6 +50,17 @@ export default class SocketService {
         this.clients = this.clients.filter((client)=> {
             return client.getId() != socket.id;
         })
+    }
+
+    /**
+     * Emits data to the client
+     * @param client
+     * @param key
+     * @param value
+     */
+    public emitToClient(client: ClientHandler, key: string, value: any)
+    {
+        client.socket.emit(key, value)
     }
 }
 
