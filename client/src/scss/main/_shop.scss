@@ -5,14 +5,15 @@
     height: 100%;
     border-right: $border;
     background: #f00;
-    overflow: hidden;
     padding: 1rem 0.5rem;
+    overflow: hidden scroll;
 
     div.shop-container {
         height: fit-content;
         display: grid;
         row-gap: 0.5rem;
-        overflow: visible hidden;
+        overflow: hidden scroll;
+        margin-bottom: 2rem;
 
 
         div.shop-item {
