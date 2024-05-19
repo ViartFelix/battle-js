@@ -1,6 +1,5 @@
 export default abstract class PrecisionContract
 {
-
     /** The number of decimals to precision */
     private readonly precision: number = 3;
     /** The precision number as a number */

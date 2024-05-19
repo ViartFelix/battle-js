@@ -50,7 +50,7 @@ export default class Exponent extends PrecisionContract
 
             //and we get how much we have to deduct from the exponent via the number of digits after the dot
             const splitDecimals = rawDecimal.toString().split('.');
-            //how much decimals to deduct from the exponent if they are some
+            //how many decimals to deduct from the exponent if they are some
             const toDeduct = (
                 splitDecimals[1] ?? ""
             ).length;
@@ -115,6 +115,9 @@ export default class Exponent extends PrecisionContract
             this.exponent = max.length - 1
             this.decimal = super.round(parseFloat(fresh.join("")))
         } else {
+            /**
+             * FIXME: if two exponents can't be added, then only the smallest number will be returned.
+             */
             //if not, then we return the biggest object because it will not affect the biggest number
             if(numberTwo.exponent > this.exponent) { return numberTwo }
         }
@@ -145,8 +148,11 @@ export default class Exponent extends PrecisionContract
             //and we put the corresponding numbers into the array after the first element
             //as they are the numbers after the dot in the number
             final.splice(1, decimalsSplit.length - 1, ...decimalsSplit);
-            //for bug: 1.25e7 = array 7 length && 1e7 = array 8 length. Weird but understandable
-            final.push(0)
+
+            //for bug: 1.25e7 = array 7 length && 1e7 = array 8 length.
+            for(let i = 0; i < decimalsSplit.length - 1; i++) {
+                final.push(0)
+            }
         }
 
         //then we replace the first element with the first number, before the dot
