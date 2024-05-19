@@ -1,9 +1,9 @@
 [
-    {"name": "Warrior", "tier": 1, "id": 1, "price": "5e0", "dmg": "5.0"},
+    {"name": "Warrior", "tier": 1, "id": 1, "price": "5e0", "dmg": "5e0"},
     {"name": "Mage", "tier": 1, "id": 2, "price": "5e1", "dmg": "2.2e1"},
-    {"name": "Thief", "tier": 1, "id": 3, "price": "25e1", "dmg": "7.4e1"},
-    {"name": "Knight", "tier": 2, "id": 4, "price": "100e1", "dmg": "2.5e2"},
-    {"name": "Paladin", "tier": 2, "id": 5, "price": "800e1", "dmg": "9.8e2"},
+    {"name": "Thief", "tier": 1, "id": 3, "price": "2.5e2", "dmg": "7.4e1"},
+    {"name": "Knight", "tier": 2, "id": 4, "price": "1e3", "dmg": "2.5e2"},
+    {"name": "Paladin", "tier": 2, "id": 5, "price": "8e3", "dmg": "9.8e2"},
     {"name": "Archmage", "tier": 2, "id": 6, "price": "6.4e3", "dmg": "3.8e3"},
     {"name": "Rogue", "tier": 2, "id": 7, "price": "5.12e4", "dmg": "1.5e4"},
     {"name": "Battle Master", "tier": 3, "id": 21, "price": "4.1e5", "dmg": "6.1e4"},

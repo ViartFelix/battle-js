@@ -1,4 +1,5 @@
 import {socketService} from "./services/SocketService";
+import {shopHandler} from "./handlers/ShopHandler";
 
 export default class main {
     /**
@@ -6,7 +7,17 @@ export default class main {
      */
     constructor() {
         this.hydrate()
-        socketService.bindSockets()
+        socketService.init()
+        shopHandler.init()
+    }
+
+    /**
+     * Bind the necessary sockets
+     * @private
+     */
+    private bindSockets()
+    {
+
     }
 
     /**
