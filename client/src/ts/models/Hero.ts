@@ -71,6 +71,10 @@ export default class Hero extends Model {
 
         this.shopTemplate.querySelector("[data-display='class-dps']")
             .textContent = this._damage.toString()
+
+        //TODO: Remove
+        //this.shopTemplate.classList.add("locked")
+
         return this;
     }
 

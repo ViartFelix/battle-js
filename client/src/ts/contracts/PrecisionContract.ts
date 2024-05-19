@@ -19,7 +19,6 @@ export default abstract class PrecisionContract
     {
         //Converting the number or string to string
         const toRound = number.toString()
-
         return Math.round(parseFloat(toRound) * this.getNumber()) / this.getNumber()
     }
 

@@ -77,4 +77,8 @@
             height: 100%;
         }
     }
+
+    &.locked {
+        display: none !important;
+    }
 }

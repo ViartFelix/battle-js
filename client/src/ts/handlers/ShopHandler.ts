@@ -1,28 +1,41 @@
 import { socketService } from "../services/SocketService";
 import Hero from "../models/Hero";
+import Exponent from "./Exponent";
+import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
+import {displayService} from "../services/DisplayService";
+
 
 class ShopHandler {
     private container: HTMLElement;
-
+    private money: Exponent;
 
     constructor() {
         this.container = document.querySelector("[data-el='shop'] div.shop-container")
+        this.money = new Exponent("1e7").parse(undefined, true);
     }
 
     /**
      * Init the shop
      */
-    public init() {
+    public init()
+    {
+        this.bindSockets()
+        this.bindEvents()
+    }
+
+    /**
+     * Bind sockets' events
+     * @private
+     */
+    private bindSockets(): void
+    {
+        //bind shop receiving data
         socketService.on('shop', (val: any) => {
             for(const hero of val) {
-                const clean = new Hero(
-                    hero.id,
-                    hero.name,
-                    hero.tier,
-                    hero.price,
-                    hero.dmg
-                )
+                //new hero
+                const clean = new Hero(hero.id, hero.name, hero.tier, hero.price, hero.dmg)
 
+                //tl;dr: cloning template and adding it to the shop
                 clean
                     .cloneShopItem()
                     .putAttributes()
@@ -31,6 +44,24 @@ class ShopHandler {
             }
         })
     }
+
+    /**
+     * Bind DOM events to the shop
+     * @private
+     */
+    private bindEvents(): void
+    {
+        //custom money receive event
+        window.addEventListener('moneyReceive', (event: MoneyReceivedEvent) => {
+            const amount = event.amount
+            this.money.add(amount)
+            displayService.updateDisplay('gold', this.money)
+        })
+
+        const a = new MoneyReceivedEvent(new Exponent("1.26e7"))
+        window.dispatchEvent(a)
+    }
+
 
 }
 
