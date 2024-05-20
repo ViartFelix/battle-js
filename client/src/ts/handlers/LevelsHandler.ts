@@ -13,8 +13,7 @@ class LevelsHandler
      */
     public init(): void
     {
-        const level = new Level(500);
-        this._currentLevel = level;
+        this._currentLevel = new Level(500);
 
         this.bindEvents();
     }

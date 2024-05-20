@@ -37,10 +37,6 @@ export default class ClientHandler {
             socketService.removeClient(this);
         });
 
-
-        console.log(levelService.add([1,5], [1,5,0]))
-
-
         this.socket.on('levelInfosRequest', (data: any)=> {
             const level: number = data.level;
             const monsterHp: number = this.getMonsterHp(level);

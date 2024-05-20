@@ -5,37 +5,39 @@ class LevelService
 
     /**
      * Add two numbers together
-     * @param nOne
-     * @param nTwo
+     * @param numberOne
+     * @param numberTwo
      */
-    public add(nOne: number[], nTwo: number[]): number[]
+    public add(numberOne: number[], numberTwo: number[]): Array<number>
     {
-        const maps = [nOne, nTwo]
-            .sort((a: number[], b: number[]) => b.length - a.length);
-        // @ts-ignore
-        const max = maps.at(0).reverse(), min = maps.at(1).reverse();
-        const result: number[] = new Array(max.length).fill(0);
+        const result: Array<number> = [];
         /** What will be transported to the next iteration */
-        let carry: number = 0;
+        let carry = 0;
+        //we get max length of the two arrays
+        const maxLength = Math.max(numberOne.length, numberTwo.length);
 
-        for(let i = 0; i < max.length; i++) {
-            const digitOne: number = nOne[i] ?? 0;
-            const digitTwo: number = nTwo[i] ?? 0;
-
-            const sum: number = digitOne + digitTwo + carry;
-            result[i] = sum % 10;
+        for (let i = 0; i < maxLength; i++) {
+            //iterate in the two arrays. If no element exists, set it to 0 as a safety measure
+            const digitOne = numberOne[numberOne.length - 1 - i] || 0;
+            const digitTwo = numberTwo[numberTwo.length - 1 - i] || 0;
+            //calculate the sum with what remains of the last sum (carry)
+            const sum = digitOne + digitTwo + carry;
+            //putting the result in the result array
+            result.unshift(sum % 10);
+            //setting the carry as a multiple of 10
             carry = Math.floor(sum / 10);
         }
 
-        if(carry > 0) {
-            result.push(carry)
+        //if any carry is remained after the last operation, we push it to the result array
+        if (carry) {
+            result.unshift(carry);
         }
 
-        return result.reverse();
+        return result;
     }
 
     /**
-     * Substract two numbers from each other
+     * Subtract two numbers from each other
      * @param nOne
      * @param nTwo
      */
@@ -77,18 +79,29 @@ class LevelService
         return result.reverse();
     }
 
-    public multiply(number: number[], times: number): number[]
+    /**
+     * Multiply two numbers map together
+     * @param number
+     * @param times
+     */
+    public multiply(number: number[], times: number): Array<number>
     {
+        //what will be returned
         let now: number[] = number;
+        //we iterate in the number of times to multiply the number
         for(let i = 0; i < times - 1; i++) {
+            //and we add the number to the result
             now = this.add(now, number);
-            console.log("f:", now)
-            console.log("-------------------------------")
         }
 
         return now;
     }
 
+    /**
+     * Returns a number map from a number
+     * @param number
+     * @private
+     */
     private getNumberMap(number: number): number[]
     {
         const final: Array<number> = [];
@@ -102,7 +115,6 @@ class LevelService
 
         return final;
     }
-
 }
 
 export const levelService: LevelService = new LevelService();
