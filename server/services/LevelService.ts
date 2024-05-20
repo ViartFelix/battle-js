@@ -84,14 +84,14 @@ class LevelService
      * @param number
      * @param power
      */
-    public exponentiate(number: number[], power: number): Array<number>
+    public exponential(number: number[], power: number): Array<number>
     {
-        const final: Array<number> = [];
-        let now: number[] = number;
-        for(let i = 0; i < power - 1; i++) {
+        let result: number[] = [1]; // Initialize the result as 1 (since anything raised to the power of 0 is 1)
+        for (let i = 0; i < power; i++) {
+            result = this.multiplyNumbers(result, number);
         }
-
-        return final;
+        console.log(result)
+        return result;
     }
 
     /**
@@ -113,37 +113,38 @@ class LevelService
     }
 
     /**
-     * Will multiply two number maps together
+     * Will multiply two number maps together.
+     * Fixed because doesn't like to be used with exponential function
      * @param numberOne
      * @param numberTwo
      */
-    public multiplyNumbers(numberOne: number[], numberTwo: number[]): Array<number>
-    {
+    public multiplyNumbers(numberOne: number[], numberTwo: number[]): Array<number> {
         //what will be returned
-        let final: number[] = [];
-
-        //max and min numbers
-        let max;
-        let min;
-        //we attribute the max and min numbers
-        if(numberOne.length >= numberTwo.length) {
-            max = numberOne;
-            min = numberTwo;
-        } else {
-            max = numberTwo;
-            min = numberOne;
-        }
-        /** Difference of digits between the 2 numbers */
-        const diff: number = Math.abs(max.length - min.length) + min.length;
-        //we iterate in the max number
-        for(let i: number = max.length - (diff); i >= 0; i--) {
-            //we get (as a raw number) the multiplier for the multiplication
-            const digits = Math.pow(10, max.length - 1 - i);
-            const multiplier = max[i] * digits;
-            //we get the result multiplied
-            const resultMultiply = this.multiply(min, multiplier);
-            //and we add to the current result
-            final = this.add(resultMultiply, final);
+        let final: number[] = [0];
+        //we iterate in the second number
+        for (let i = numberTwo.length - 1; i >= 0; i--) {
+            //temp array, serves as a buffer
+            let temp: number[] = [];
+            //we iterate in the second number again to fill the temp array
+            for (let k = 0; k < numberTwo.length - 1 - i; k++) {
+                temp.push(0);
+            }
+            //carry
+            let carry = 0;
+            //then we can iterate in the first number, but reversed
+            for (let j = numberOne.length - 1; j >= 0; j--) {
+                //we get the product of the two numbers, alongside the carry
+                const product = numberTwo[i] * numberOne[j] + carry;
+                //and we push the result to the temp array
+                temp.unshift(product % 10);
+                carry = Math.floor(product / 10);
+            }
+            //if any remaining carry exists, we push it to the temp array
+            if (carry > 0) {
+                temp.unshift(carry);
+            }
+            //and we add the temp array to the final array
+            final = this.add(final, temp);
         }
 
         return final;
