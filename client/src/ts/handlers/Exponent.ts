@@ -10,6 +10,9 @@ export default class Exponent extends PrecisionContract
     /** The exponent */
     private exponent: number;
 
+    /** Number of exponent without any decimals */
+    private exponentWithoutDecimal: number;
+
     constructor(number?: number|string|undefined) {
         super();
 
@@ -55,8 +58,9 @@ export default class Exponent extends PrecisionContract
                 splitDecimals[1] ?? ""
             ).length;
 
+            this.exponentWithoutDecimal = rawExponent - toDeduct
             //setting the exponent (right-side of the number)
-            this.exponent = (rawExponent - toDeduct);
+            this.exponent = rawExponent;
             //setting the decimals by rounding it
             this.decimal = super.round(rawDecimal);
         } else {
@@ -70,7 +74,7 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
-     * Adds two numbers
+     * Adds two numbers together
      * @param numberTwo
      */
     public add(numberTwo: Exponent)
@@ -82,10 +86,9 @@ export default class Exponent extends PrecisionContract
                 this.getNumberMap(),
                 numberTwo.getNumberMap(),
             ].sort((a: number[], b: number[]) => b.length - a.length);
-            //we fetch the biggest and smallest array
+            //we fetch the biggest and smallest array. Note: the reverse is intentional
             const max = maps.at(0).reverse(), min = maps.at(1).reverse();
 
-            //console.log(this.getNumberMap(), numberTwo.getNumberMap())
             /** The final array, to parse after the addition. Array of string for super.parseDecimals */
             const final: Array<number> = new Array<number>(max.length).fill(0);
             /** The rest to transport to the array at the next iteration. */
@@ -115,13 +118,13 @@ export default class Exponent extends PrecisionContract
             this.exponent = max.length - 1
             this.decimal = super.round(parseFloat(fresh.join("")))
         } else {
-            /**
-             * FIXME: if two exponents can't be added, then only the smallest number will be returned.
-             */
-            //if not, then we return the biggest object because it will not affect the biggest number
-            if(numberTwo.exponent > this.exponent) { return numberTwo }
+            //if the exponent of number 2 is superior to the current exponent
+            if(numberTwo.exponent > this.exponent) {
+                //then we replace data in current number for number 2
+                this.exponent = numberTwo.exponent
+                this.decimal = numberTwo.decimal
+            }
         }
-
         return this;
     }
 
@@ -147,16 +150,18 @@ export default class Exponent extends PrecisionContract
             const decimalsSplit = splitDecimal.at(1).split("").map(Number)
             //and we put the corresponding numbers into the array after the first element
             //as they are the numbers after the dot in the number
-            final.splice(1, decimalsSplit.length - 1, ...decimalsSplit);
+            final.splice(1, decimalsSplit.length, ...decimalsSplit);
 
             //for bug: 1.25e7 = array 7 length && 1e7 = array 8 length.
-            for(let i = 0; i < decimalsSplit.length - 1; i++) {
+            for(let i = 0; i < decimalsSplit.length - super.getPrecision(); i++) {
                 final.push(0)
             }
         }
 
         //then we replace the first element with the first number, before the dot
         final.splice(0, 1, parseInt(splitDecimal.at(0)))
+
+        console.log(final)
         //and we have the digit map !
         return final
     }

@@ -11,7 +11,7 @@ class ShopHandler {
 
     constructor() {
         this.container = document.querySelector("[data-el='shop'] div.shop-container")
-        this.money = new Exponent("1.156e8").parse(undefined, true);
+        this.money = new Exponent("0").parse();
     }
 
     /**
@@ -57,9 +57,6 @@ class ShopHandler {
             this.money.add(amount)
             displayService.updateDisplay('gold', this.money)
         })
-
-        const a = new MoneyReceivedEvent(new Exponent("1.159e66"))
-        window.dispatchEvent(a)
     }
 
 
