@@ -37,38 +37,16 @@ export default class ClientHandler {
             socketService.removeClient(this);
         });
 
-        levelService.exponential([6], 4)
-
         this.socket.on('levelInfosRequest', (data: any)=> {
+            //get the level
             const level: number = data.level;
-            const monsterHp: number = this.getMonsterHp(level);
-
+            //get monster HP
+            const monsterHp: Array<number> = levelService.getMonsterHp(level)
+            //return the monster HP as number map
             this.socket.emit('levelInfosResponse', {
-                hp: Math.floor(monsterHp)
+                hp: monsterHp
             })
         })
-    }
-
-    public getMonsterHp(level: number)
-    {
-        if(level < 140) {
-            return ( 10 * (level - 1 + Math.pow(1.55, level - 1)) )
-        } else if( level < 500 ) {
-            return ( 10 * (139 + Math.pow(1.55, 139) * Math.pow(1.145, level - 140)) )
-        } else if (level < 200000) {
-            let total: number = 0;
-
-            for(let i: number = 501; i <= level; i++) {
-                const base = 10 * (139 + Math.pow(1.55, i) * Math.pow(1.145, i - 500))
-                const now = Math.floor(base + 0.001)
-
-                total += now
-            }
-
-            return Math.floor(total)
-        } else {
-            return (Math.pow(1.545, level - 200000) * 1.24 * Math.pow(10, 25409) + (level - 1) * 10)
-        }
     }
 
     public getId(): string

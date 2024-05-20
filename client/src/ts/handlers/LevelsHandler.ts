@@ -1,4 +1,5 @@
 import Level from "../models/Level";
+import {displayService} from "../services/DisplayService";
 
 class LevelsHandler
 {
@@ -13,8 +14,7 @@ class LevelsHandler
      */
     public init(): void
     {
-        this._currentLevel = new Level(500);
-
+        this._currentLevel = new Level(1);
         this.bindEvents();
     }
 
@@ -28,17 +28,13 @@ class LevelsHandler
     }
 
     /**
-     * Triggers
+     * Triggers the level change
      * @param isAdded
      */
     public changeLevel(isAdded: boolean): void
     {
-
+        //TODO
     }
-
-
-
-
 }
 
 export const levelsHandler: LevelsHandler = new LevelsHandler();

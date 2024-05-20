@@ -1,13 +1,18 @@
 import Model from "./Model";
 import {socketService} from "../services/SocketService";
+import Exponent from "../handlers/Exponent";
+import {displayService} from "../services/DisplayService";
 
 export default class Level extends Model
 {
+
     private readonly _level: number;
     /** If the level indicated is a boss level */
     private readonly _isBoss: boolean = false;
     /** The multiplicative of boss HP */
     private bossMultiplicative: number = 10;
+    /** Current monster HP */
+    private _monsterHp: Exponent;
 
     /**
      * Generates a new level
@@ -37,12 +42,18 @@ export default class Level extends Model
     private fetchInfos(): void
     {
         socketService.on("levelInfosResponse", (data: any) => {
-            console.log(data)
+            //get monster hp
+            const monsterHp = data.hp.map(String).join("");
+            //parse the number
+            this._monsterHp = new Exponent(monsterHp).parse();
+            //update the display
+            displayService.updateDisplay('current-hp', this._monsterHp)
         })
-
+        //first emit for the first level
         socketService.emit("levelInfosRequest", {level: this._level})
     }
 
 
     get level(): number { return this._level; }
+    get monsterHp(): Exponent { return this._monsterHp; }
 }

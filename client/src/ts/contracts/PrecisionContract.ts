@@ -58,6 +58,16 @@ export default abstract class PrecisionContract
     }
 
     /**
+     * Returns the number of exponents in the number
+     * @param num
+     */
+    public getExponent(num: number|string): number
+    {
+        //split the num as string, and we return its length
+        return num.toString().split("").length - 1;
+    }
+
+    /**
      * Returns the precision: amount of decimals to round to. <br>
      * Default is 3.
      * @protected

@@ -65,8 +65,9 @@ export default class Exponent extends PrecisionContract
             this.decimal = super.round(rawDecimal);
         } else {
             const fresh = super.parseDecimals(toParse.split(''));
+
             //putting the data into the object
-            this.exponent = fresh.length
+            this.exponent = super.getExponent(toParse)
             this.decimal = parseFloat(fresh.join(""))
         }
 

@@ -20,7 +20,7 @@ export default class Main {
     {
         this.socketsManager.init()
         this.socketsManager.on("levelChange", (val: any) => {
-            console.log(val)
+
         })
     }
 }

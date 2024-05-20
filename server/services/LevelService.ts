@@ -86,11 +86,11 @@ class LevelService
      */
     public exponential(number: number[], power: number): Array<number>
     {
-        let result: number[] = [1]; // Initialize the result as 1 (since anything raised to the power of 0 is 1)
+        //Initialize the result as 1 (since anything raised to the power of 0 is 1)
+        let result: number[] = [1];
         for (let i = 0; i < power; i++) {
             result = this.multiplyNumbers(result, number);
         }
-        console.log(result)
         return result;
     }
 
@@ -155,7 +155,7 @@ class LevelService
      * @param number
      * @private
      */
-    private getNumberMap(number: number): number[]
+    public getNumberMap(number: number): number[]
     {
         const final: Array<number> = [];
         const strTarget: string = number.toString();
@@ -166,6 +166,43 @@ class LevelService
 
         return final;
     }
+
+    /**
+     * Gets a number from a number map.
+     * May break on (very) large numbers
+     * @param number
+     */
+    public getNumberFromMap(number: number[]): number
+    {
+        return parseInt(number.map(x => x.toString()).join(''));
+    }
+
+    /**
+     * Returns the hp of the monster based on the level asked
+     * @return Array<number> The numbers map of the hp of the monster
+     * @param zone
+     */
+    public getMonsterHp(zone: number): Array<number>
+    {
+        //Base health for first level of any zone
+        const baseHealth = this.getNumberMap(10)
+        //Level increment starts from 0
+        const levelIncrement = this.getNumberMap(zone - 1);
+
+        //Calculate the number of steps of growth (every 5 zones)
+        const steps = Math.floor((zone - 1) / 5);
+
+        //Calculate the health increment for each level within the zone
+        const levelHealthIncrement = this.multiplyNumbers(levelIncrement, baseHealth);
+
+        //Calculate the health of monsters for the current zone and level
+        const growthFactor = this.getNumberMap(5); // Growth factor every 5 zones as array
+        const health = this.exponential(growthFactor, steps);
+        const finalHealth = this.add(baseHealth, this.add(health, levelHealthIncrement));
+
+        return finalHealth;
+    }
+
 }
 
 export const levelService: LevelService = new LevelService();
