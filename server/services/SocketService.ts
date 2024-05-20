@@ -1,7 +1,7 @@
 import {Server, Socket} from "socket.io";
 import ClientHandler from "../managers/ClientHandler";
 import {DefaultEventsMap} from "socket.io/dist/typed-events";
-
+import SocketException from "../exceptions/SocketException";
 
 class SocketService {
     /** The io server */
@@ -27,9 +27,25 @@ class SocketService {
     public init(): void
     {
         //When a socket is connected
-        this.io.on("connection", (socket: Socket) => {
+        this.on("connection", (socket: Socket) => {
             this.addClient(socket)
         })
+    }
+
+    /**
+     * Attach an event to a handler
+     * @param event
+     * @param callback
+     */
+    public on(event: string, callback: Function)
+    {
+        this.io.on(event, (val)=> {
+            try {
+                callback(val)
+            } catch(e: any) {
+                throw new SocketException(e)
+            }
+        });
     }
 
     /**
@@ -43,7 +59,7 @@ class SocketService {
 
     /**
      * Delete the client in the manager, to free memory
-     * @param socket The client to be remove
+     * @param socket The client to be removed
      */
     public removeClient(socket: ClientHandler)
     {
