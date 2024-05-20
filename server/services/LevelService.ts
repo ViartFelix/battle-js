@@ -80,6 +80,21 @@ class LevelService
     }
 
     /**
+     * Exponentiation of a number map
+     * @param number
+     * @param power
+     */
+    public exponentiate(number: number[], power: number): Array<number>
+    {
+        const final: Array<number> = [];
+        let now: number[] = number;
+        for(let i = 0; i < power - 1; i++) {
+        }
+
+        return final;
+    }
+
+    /**
      * Multiply two numbers map together
      * @param number
      * @param times
@@ -98,6 +113,43 @@ class LevelService
     }
 
     /**
+     * Will multiply two number maps together
+     * @param numberOne
+     * @param numberTwo
+     */
+    public multiplyNumbers(numberOne: number[], numberTwo: number[]): Array<number>
+    {
+        //what will be returned
+        let final: number[] = [];
+
+        //max and min numbers
+        let max;
+        let min;
+        //we attribute the max and min numbers
+        if(numberOne.length >= numberTwo.length) {
+            max = numberOne;
+            min = numberTwo;
+        } else {
+            max = numberTwo;
+            min = numberOne;
+        }
+        /** Difference of digits between the 2 numbers */
+        const diff: number = Math.abs(max.length - min.length) + min.length;
+        //we iterate in the max number
+        for(let i: number = max.length - (diff); i >= 0; i--) {
+            //we get (as a raw number) the multiplier for the multiplication
+            const digits = Math.pow(10, max.length - 1 - i);
+            const multiplier = max[i] * digits;
+            //we get the result multiplied
+            const resultMultiply = this.multiply(min, multiplier);
+            //and we add to the current result
+            final = this.add(resultMultiply, final);
+        }
+
+        return final;
+    }
+
+    /**
      * Returns a number map from a number
      * @param number
      * @private
@@ -110,8 +162,6 @@ class LevelService
         for(let i = 0; i < strTarget.length; i++) {
             final.push(parseInt(strTarget.charAt(i)));
         }
-
-        console.log(final)
 
         return final;
     }
