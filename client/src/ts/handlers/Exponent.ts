@@ -97,7 +97,7 @@ export default class Exponent extends PrecisionContract
             //we iterate in the max array
             for(let i = 0; i < max.length; i++) {
                 //max and min digits
-                const digitMax = max[i];
+                const digitMax = max[i] ?? 0;
                 const digitMin = min[i] ?? 0;
 
                 //the sum
@@ -160,8 +160,6 @@ export default class Exponent extends PrecisionContract
 
         //then we replace the first element with the first number, before the dot
         final.splice(0, 1, parseInt(splitDecimal.at(0)))
-
-        console.log(final)
         //and we have the digit map !
         return final
     }

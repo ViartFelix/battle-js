@@ -26,6 +26,16 @@ class SocketService implements ServiceContact  {
             }
         });
     }
+
+    /**
+     * Emits a message to the server
+     * @param event
+     * @param val
+     */
+    public emit(event: string, val: any)
+    {
+        this.socket.emit(event, val)
+    }
 }
 
 export const socketService = new SocketService();

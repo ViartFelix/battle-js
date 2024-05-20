@@ -19,5 +19,8 @@ export default class Main {
     public bindSockets(): void
     {
         this.socketsManager.init()
+        this.socketsManager.on("levelChange", (val: any) => {
+            console.log(val)
+        })
     }
 }

@@ -1,5 +1,6 @@
 import {socketService} from "./services/SocketService";
 import {shopHandler} from "./handlers/ShopHandler";
+import {levelsHandler} from "./handlers/LevelsHandler";
 
 export default class main {
     /**
@@ -7,8 +8,10 @@ export default class main {
      */
     constructor() {
         this.hydrate()
+
         socketService.init()
         shopHandler.init()
+        levelsHandler.init()
     }
 
     /**
