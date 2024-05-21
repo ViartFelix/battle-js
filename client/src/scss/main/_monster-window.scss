@@ -17,14 +17,14 @@
             align-items: end;
 
             [data-display='monster'] {
-                width: 50%;
-                height: auto;
+                width: auto;
+                height: 50%;
                 object-fit: contain;
                 object-position: center;
                 transform-origin: bottom center;
 
                 &.boss {
-                    transform: scale(1.15);
+                    transform: scale(1.5);
                 }
             }
         }
@@ -34,8 +34,16 @@
             display: grid;
             row-gap: 0.5rem;
 
+            [data-display='monster-bar'] {
+                border: 0.25rem solid #000 !important;
+                background: #fff !important;
+                color: #000 !important;
+
+                padding: 0.5rem 0;
+            }
+
             .info-bar {
-                border-radius: 0.25rem;
+                border-radius: 999px !important;
                 width: 100%;
                 border: 1px solid #000;
                 overflow: hidden;

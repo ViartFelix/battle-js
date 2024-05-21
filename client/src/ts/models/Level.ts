@@ -3,6 +3,7 @@ import {socketService} from "../services/SocketService";
 import Exponent from "../handlers/Exponent";
 import {displayService} from "../services/DisplayService";
 import Monster from "./Monster";
+import MonsterRes from "../reqRes/MonsterRes";
 
 export default class Level extends Model
 {
@@ -38,14 +39,13 @@ export default class Level extends Model
     private fetchInfos(): void
     {
         socketService.on("levelInfosResponse", (data: any) => {
-            this._monster = new Monster(
-                data.enemy.hp,
-                data.enemy.money,
-                data.enemy.isBoss
-            );
+
+            const res = data.enemy as MonsterRes;
+            this._monster = new Monster(res);
+
 
             this.updateDisplays();
-            this._monster.updateMonster();
+            this._monster.updateMonster(true);
         })
 
         //monster HP

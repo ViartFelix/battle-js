@@ -263,7 +263,7 @@ class LevelService
         );
         const data = JSON.parse(buffer.toString())
 
-        const randomEnemy = data[Math.floor(Math.random() * (data.length + 1) - 1)];
+        const randomEnemy = data[Math.floor(Math.random() * (data.length))];
         return randomEnemy as Enemy;
     }
 

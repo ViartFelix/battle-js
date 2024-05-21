@@ -21,6 +21,36 @@ class DisplayService implements ServiceContact
         }
 
         el.textContent = data.toString()
+
+        return this;
+    }
+
+    public updateDisplayAttr(displayName: string, attr: string, value: string)
+    {
+        const el = document.querySelector(`[data-display=${displayName}]`)
+
+        if(el === null) {
+            throw new DisplayException("Element '"+ displayName +"' not found.")
+        }
+
+        el.setAttribute(attr, value)
+
+        return this;
+    }
+
+    /**
+     * Returns an element containing data-display attribute
+     * @param displayName
+     */
+    public getDisplay(displayName: string): HTMLElement
+    {
+        const el = document.querySelector(`[data-display=${displayName}]`)
+
+        if(el === null) {
+            throw new DisplayException("Element '"+ displayName +"' not found.")
+        }
+
+        return el as HTMLElement;
     }
 
 
