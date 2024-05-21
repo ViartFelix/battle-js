@@ -1,3 +1,6 @@
+import Enemy from "../models/Enemy";
+import { fsService } from "./FsService";
+
 class LevelService
 {
     constructor() {
@@ -178,29 +181,90 @@ class LevelService
     }
 
     /**
-     * Returns the hp of the monster based on the level asked
+     * Gets an enemy from a zone
+     * @param zone
+     * @param lastMonsterHP
+     */
+    public getEnemy(zone: number, lastMonsterHP: number[]): Enemy
+    {
+        const isBoss: boolean = (zone % 10 === 0);
+        const randomEnemy: Enemy = this.getRandomEnemyData(isBoss);
+        randomEnemy.isBoss = isBoss
+
+        randomEnemy.hp = this.getMonsterHp(zone, lastMonsterHP, isBoss);
+        randomEnemy.money = this.getMonsterGold(zone, isBoss);
+
+        return randomEnemy;
+    }
+
+
+    /**
+     * Returns the hp of the monster based on the level asked. Applied formula: <br>
+     * (HPzone-1)×(1+zone×0.1)² <br>
+     * Where (HPzone-1) is the HP of the previous monster (not present here)
      * @return Array<number> The numbers map of the hp of the monster
      * @param zone
+     * @param previousHP
+     * @param isBoss
      */
-    public getMonsterHp(zone: number): Array<number>
+    public getMonsterHp(zone: number, previousHP: number[], isBoss: boolean = false): Array<number>
     {
-        //Base health for first level of any zone
-        const baseHealth = this.getNumberMap(10)
-        //Level increment starts from 0
-        const levelIncrement = this.getNumberMap(zone - 1);
+        if(zone > 1) {
+            //zone map
+            const zoneMap = this.getNumberMap(zone);
+            //zone×0.1
+            let poped;
+            if(zone >= 10) {
+                zoneMap.pop();
+            }
+            poped = zoneMap
+            //(1+zone×0.1)²
+            const onePlusPopedSquared = this.exponential(this.add([1], poped), 2)
+            //previousHP + currentHP
+            const finalHealth = this.add(onePlusPopedSquared, previousHP)
+            return this.multiply(finalHealth, (
+                isBoss? 10 : 1
+            ))
+        } else {
+            return [1,0];
+        }
 
-        //Calculate the number of steps of growth (every 5 zones)
-        const steps = Math.floor((zone - 1) / 5);
+    }
 
-        //Calculate the health increment for each level within the zone
-        const levelHealthIncrement = this.multiplyNumbers(levelIncrement, baseHealth);
+    /**
+     * Gets the gold of the monster based on the zone. This formula is the following: <br>
+     * f(x) = (x^2)-x+1
+     * @param zone
+     * @param isBoss
+     */
+    public getMonsterGold(zone: number, isBoss: boolean = false): Array<number>
+    {
+        //zone number map
+        const zoneMap = this.getNumberMap(zone);
+        //target formula
+        const expo: Array<number> = this.exponential(zoneMap, 2);
+        const minusZone = this.subtract(expo, zoneMap);
+        const final = this.add(minusZone, [1]);
 
-        //Calculate the health of monsters for the current zone and level
-        const growthFactor = this.getNumberMap(5); // Growth factor every 5 zones as array
-        const health = this.exponential(growthFactor, steps);
-        const finalHealth = this.add(baseHealth, this.add(health, levelHealthIncrement));
+        if(isBoss) {
+            return this.multiply(final, 10);
+        } else {
+            return final;
+        }
+    }
 
-        return finalHealth;
+    /**
+     * Get a random boss
+     */
+    public getRandomEnemyData(isBoss: boolean = false): Enemy
+    {
+        const buffer = fsService.getDataFile(
+            isBoss ? 'bosses.json' : 'monsters.json'
+        );
+        const data = JSON.parse(buffer.toString())
+
+        const randomEnemy = data[Math.floor(Math.random() * (data.length + 1) - 1)];
+        return randomEnemy as Enemy;
     }
 
 }

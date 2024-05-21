@@ -2,6 +2,7 @@ import {Socket} from "socket.io";
 import { socketService } from "../services/SocketService"
 import { classService } from "../services/ClassService";
 import {levelService} from "../services/LevelService";
+import Enemy from "../models/Enemy";
 
 export default class ClientHandler {
     readonly socket: Socket;
@@ -38,16 +39,26 @@ export default class ClientHandler {
         });
 
         this.socket.on('levelInfosRequest', (data: any)=> {
-            //get the level
-            const level: number = data.level;
-            //get monster HP
-            const monsterHp: Array<number> = levelService.getMonsterHp(level)
-            //return the monster HP as number map
-            this.socket.emit('levelInfosResponse', {
-                hp: monsterHp
-            })
+            this.levelInfosRequest(data)
         })
     }
+
+    private levelInfosRequest(data: any): void
+    {
+        //get the level
+        const level: number = data.level;
+        const previousMonster = data.hp
+
+        //get next monster type (boss or monster)
+        const nextMonster: Enemy = levelService.getEnemy(level, previousMonster);
+
+        //return the monster HP as number map
+        this.socket.emit('levelInfosResponse', {
+            enemy: nextMonster,
+        })
+    }
+
+
 
     public getId(): string
     {

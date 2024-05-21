@@ -14,7 +14,7 @@ class LevelsHandler
      */
     public init(): void
     {
-        this._currentLevel = new Level(1);
+        this._currentLevel = new Level(1)
         this.bindEvents();
     }
 
