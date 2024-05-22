@@ -173,6 +173,7 @@ export default class Exponent extends PrecisionContract
     {
         if(this.isAddable(numberTwo)) {
             const final: number[] = [];
+            const rawResults: number[] = [];
             //we get the two number maps, and sort them from biggest to smallest
             const maps = [
                 this.getNumberMap(),
@@ -190,6 +191,7 @@ export default class Exponent extends PrecisionContract
                 //the total of the substation (increased lower digit by carry because if result is < 0
                 // then that means we have to increase the upper number by 10)
                 const total = upperDigit - (lowerDigit + carry);
+                rawResults.push(total)
                 //if the upper number is smaller than the lower number
                 if(total < 0) {
                     //then we'll have to "burry" a one to the next digit

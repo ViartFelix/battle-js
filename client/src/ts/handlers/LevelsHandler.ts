@@ -1,28 +1,16 @@
 import Level from "../models/Level";
-import { displayService } from "../services/DisplayService";
+import {displayService} from "../services/DisplayService";
 import Monster from "../models/Monster";
 import Exponent from "./Exponent";
 import MonsterRes from "../reqRes/MonsterRes";
 import {socketService} from "../services/SocketService";
-import LevelChangeEvent from "../events/LevelChangeEvent";
+import LevelChangeEvent, {LevelChangeType} from "../events/LevelChangeEvent";
+import MonsterDamageEvent from "../events/MonsterDamageEvent";
+import MonsterKillEvent from "../events/MonsterKillEvent";
+import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 
 class LevelsHandler
 {
-
-    /*
-    init: init le level handler
-    bindEvents: binds les events au DOM (
-        click monster = dans monstre,
-        click previous = ici
-        click next = ici
-        levelChangeAttempt = ici
-
-    monsterRequest: fait une req au back sur le monstre et handle le monstre
-    change Level: check si on peut aller en arrière ou en avant selon l'action
-    updateDisplays: met à jour l'affichage des monstres et des niveaux
-    )
-     */
-
     /** Current level */
     private _currentLevel: Level;
     /** Current monster on the field */
@@ -42,7 +30,6 @@ class LevelsHandler
         this._pb = this._currentLevel
         this.bindEvents();
         this.monsterRequest();
-        //this.requestNewMonster()
     }
 
     /**
@@ -84,126 +71,90 @@ class LevelsHandler
      */
     private bindEvents(): void
     {
-        window.addEventListener('levelChange', (event: LevelChangeEvent) => {
-
+        window.addEventListener('levelChangeAttempt', (event: LevelChangeEvent) => {
+            if(event.isValidMovement) {
+                this.handleLevelChangeEvent(event)
+            }
         });
 
+        window.addEventListener('monsterKill', (event: MonsterKillEvent) => {
+            this.handleMonsterKillEvent(event)
+        })
+
+        //handles the response of the server for a level information request
         socketService.on("levelInfosResponse", (data: any) => {
             const final = data.enemy as MonsterRes;
             this.handleMonsterRequest(final)
         })
 
-        /*
-        //binds click on the monster image
         displayService.getDisplay('monster')
-            .addEventListener('click', (event: Event) => this.monsterClickHandler(event))
+            .addEventListener('click', (event: Event) => {
+                event.preventDefault();
+                const clickDamage = new Exponent(1)
+                const targetEvent = new MonsterDamageEvent(clickDamage)
+                window.dispatchEvent(targetEvent)
+            })
 
         displayService.getDisplay('previous')
-            .addEventListener('click', (event: Event) => this.handleLevelProgression(true, event))
+            .addEventListener("click", (event: Event) => {
+                event.preventDefault();
+                const targetEvent = new LevelChangeEvent(
+                    LevelChangeType.LEVEL_DOWN
+                )
+
+                window.dispatchEvent(targetEvent);
+            })
 
         displayService.getDisplay('next')
-            .addEventListener('click', (event: Event) => this.handleLevelProgression(false, event))
+            .addEventListener("click", (event: Event) => {
+                event.preventDefault();
 
-        socketService.on("levelInfosResponse", (data: any) => {
-            const enemyData = data.enemy as MonsterRes;
-            this.assignMonsterData(enemyData)
-        })
-         */
+                const targetEvent = new LevelChangeEvent(
+                    LevelChangeType.LEVEL_UP
+                )
+
+                window.dispatchEvent(targetEvent);
+            })
     }
 
 
-
-    //TODO: tout refacto en event listener
-
     /**
-     * Handles the progression of the levels
+     * Handles the killing of a monster
      * @param event
-     * @param previous If should advance to previous level
      * @private
      */
-    /*
-    private handleLevelProgression(previous: boolean, event?: Event): void
+    private handleMonsterKillEvent(event: MonsterKillEvent): void
     {
-        if(event) {
-            event.preventDefault();
-        }
+        //getting gold (already parsed)
+        const gold: Exponent = this._monster.enemyGold
+        //apply gold adding
+        const goldEvent = new MoneyReceivedEvent(gold)
+        window.dispatchEvent(goldEvent)
 
-        if(this._currentLevel.isAbleToGoNextLevel(this._pb)) {
-            if(previous) {
-                this.changeLevel(this._currentLevel.level - 1)
-            } else {
-                this.changeLevel(this._currentLevel.level + 1)
+        //add progress to current level
+        this._currentLevel.addToProgression()
+
+        //new monster request to the server
+        this.monsterRequest()
+    }
+
+    /**
+     * Handles the level change event
+     * @param event
+     * @private
+     */
+    private handleLevelChangeEvent(event: LevelChangeEvent): void
+    {
+        if(event.isValidMovement) {
+            this._currentLevel = new Level(event.nextLevel);
+
+            if(event.nextLevel > this._pb.level) {
+                this._pb = this._currentLevel;
             }
-        } else {
-            this._currentLevel.addToProgression();
-        }
 
-        this.updateDisplays()
-    }
-
-     */
-
-    /**
-     *
-     * @private
-     */
-    /*
-    private requestNewMonster(): void
-    {
-    }
-
-     */
-
-    /**
-     * Handles the click on the monster
-     * @private
-     */
-    /*
-    private monsterClickHandler(event: Event): void
-    {
-        event.preventDefault()
-        const dmgClick = new Exponent(1).parse()
-        //reducing the monster HP by 1
-        this._monster.damage(dmgClick)
-
-        if(this._monster.enemyHp.getRawNumber() <= 0) {
-            this.handleLevelProgression(false)
-            this.requestNewMonster()
+            this.monsterRequest();
         }
     }
-
-     */
-
-    /**
-     * Assign the monster data from the socket response
-     * @param data
-     */
-    /*
-    public assignMonsterData(data: MonsterRes): void
-    {
-        this._monster = new Monster(data);
-        this.updateDisplays();
-    }
-
-     */
-
-    /**
-     * Triggers the level change and updates the pb
-     * @param nextLevel The level to go
-     */
-    /*
-    private changeLevel(nextLevel: number): void
-    {
-        this._currentLevel = new Level(nextLevel);
-        //if the level is the personal best, update it
-        if(this._currentLevel.level > this._pb.level) {
-            this._pb = this._currentLevel;
-        }
-
-        this.updateDisplays();
-    }
-
-     */
 
     /**
      * Updates the different displays related to the level
@@ -211,21 +162,23 @@ class LevelsHandler
      */
     private updateDisplays(): void
     {
+        //updates the monster display
         this._monster.updateMonster(true);
 
-        /*
-        const canGoNext = this._currentLevel.isAbleToGoNextLevel(this._pb);
-        const canGoPrev = this._currentLevel.level > 1;
+        //updates the level display
+        const canGoBack = this._currentLevel.canGoPreviousLevel();
+        const canGoForward = this._currentLevel.canGoNextLevel();
 
 
-        this._currentLevel.updateLevelUI(
-            canGoNext, canGoPrev
-        );
+        //console.log(canGoForward)
 
-         */
+        this._currentLevel.updateLevelUI();
     }
 
     get monster(): Monster { return this._monster; }
+    get currentLevel(): Level { return this._currentLevel; }
+    get pb(): Level { return this._pb; }
+
 }
 
 export const levelsHandler: LevelsHandler = new LevelsHandler();

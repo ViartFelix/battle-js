@@ -53,7 +53,20 @@ class DisplayService implements ServiceContact
         return el as HTMLElement;
     }
 
+    /**
+     * Returns an element containing data-btn attribute
+     * @param btnName
+     */
+    public getBth(btnName: string): HTMLElement
+    {
+        const el = document.querySelector(`[data-btn=${btnName}]`)
 
+        if(el === null) {
+            throw new DisplayException("Button '"+ btnName +"' not found.")
+        }
+
+        return el as HTMLElement;
+    }
 }
 
 export const displayService: DisplayService = new DisplayService()

@@ -3,6 +3,7 @@ import {socketService} from "../services/SocketService";
 import MonsterRes from "../reqRes/MonsterRes";
 import {levelsHandler} from "../handlers/LevelsHandler";
 import {displayService} from "../services/DisplayService";
+import LevelChangeEvent, {LevelChangeType} from "../events/LevelChangeEvent";
 
 export default class Level extends Model
 {
@@ -44,29 +45,46 @@ export default class Level extends Model
 
     /**
      * Determines of the player can access the next level
-     * @private
      */
-    public isAbleToGoNextLevel(pb: Level): boolean
+    public canGoNextLevel(): boolean
     {
-        return this.level <= pb.level && this.progression >= this.limit
+        //if the player has already visited this zone
+        //if level bellow pb and level is not 1
+        if(this.level < levelsHandler.pb.level) {
+            return true;
+        } else {
+            if(this.level === levelsHandler.pb.level) {
+                return this.progression >= this.limit;
+            } else {
+                return this.progression >= this.limit;
+            }
+        }
+    }
+
+    /**
+     * Determines if the player can access the previous level
+     */
+    public canGoPreviousLevel(): boolean
+    {
+        return this.level > 1
     }
 
     /**
      * Updates the UI elements of the level
      */
-    public updateLevelUI(next: boolean, previous: boolean): void
+    public updateLevelUI(): void
     {
         displayService.updateDisplay('level', this._level)
         displayService.updateDisplay('remain-current', this._progression)
         displayService.updateDisplay('remain-total', this._limit)
 
-        if(next) {
+        if(this.canGoNextLevel()) {
             displayService.getDisplay('next').classList.remove('disabled')
         } else {
             displayService.getDisplay('next').classList.add('disabled')
         }
 
-        if(previous) {
+        if(this.canGoPreviousLevel()) {
             displayService.getDisplay('previous').classList.remove('disabled')
         } else {
             displayService.getDisplay('previous').classList.add('disabled')
