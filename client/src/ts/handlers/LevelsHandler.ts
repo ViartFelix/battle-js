@@ -8,6 +8,7 @@ import LevelChangeEvent, {LevelChangeType} from "../events/LevelChangeEvent";
 import MonsterDamageEvent from "../events/MonsterDamageEvent";
 import MonsterKillEvent from "../events/MonsterKillEvent";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
+import LevelReq from "../reqRes/LevelReq";
 
 class LevelsHandler
 {
@@ -48,10 +49,12 @@ class LevelsHandler
             hp = [1,0]
         }
 
-        socketService.emit('levelInfosRequest', {
-            level: this._currentLevel,
+        const req = {
+            level: this._currentLevel.level,
             hp: hp,
-        })
+        } as LevelReq
+
+        socketService.emit('levelInfosRequest', req)
     }
 
     /**
