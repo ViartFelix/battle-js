@@ -19,11 +19,7 @@ class SocketService implements ServiceContact  {
     public on(event: string, callback: Function)
     {
         this.socket.on(event, (val)=> {
-            try {
-                callback(val)
-            } catch(e) {
-                throw new SocketException(e)
-            }
+            callback(val)
         });
     }
 

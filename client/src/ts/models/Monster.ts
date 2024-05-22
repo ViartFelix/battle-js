@@ -23,7 +23,6 @@ export default class Monster extends Model
     {
         super();
 
-
         //get monster hp and parse it
         const monsterHp = monsterRep.hp.map(String).join("");
         this._enemyHp = new Exponent(monsterHp).parse();
@@ -45,7 +44,6 @@ export default class Monster extends Model
         //update the hp display
         displayService.updateDisplay('current-hp', this._enemyHp)
         displayService.updateDisplay('monster-name', this._monsterName)
-        console.log("qzdqzzdzzd")
 
         if(updateImage) {
             //update the monster image
@@ -54,8 +52,20 @@ export default class Monster extends Model
             displayService.getDisplay('monster').classList.add(
                 this._isBoss ? 'boss' : "monster"
             )
-
         }
+    }
+
+    /**
+     * Requests damaging to the monster
+     * @private
+     */
+    public damage(damage: Exponent): void
+    {
+        this.enemyHp.subtract(damage);
+
+        this.updateMonster(false)
+        //TODO: faire soustraction du damage dans levelHandler (méthode)
+        //updater the monstre
     }
 
     /**

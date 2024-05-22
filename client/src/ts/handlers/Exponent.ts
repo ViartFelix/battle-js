@@ -165,6 +165,63 @@ export default class Exponent extends PrecisionContract
         return final
     }
 
+    /**
+     * Will subtract the current number stored to another number
+     * @param numberTwo
+     */
+    public subtract(numberTwo: Exponent): this
+    {
+        if(this.isAddable(numberTwo)) {
+            const final: number[] = [];
+            //we get the two number maps, and sort them from biggest to smallest
+            const maps = [
+                this.getNumberMap(),
+                numberTwo.getNumberMap()
+            ].sort((a: number[], b: number[]) => b.length - a.length);
+            //we fetch the biggest and smallest array
+            const max = (maps.at(0)??[]).reverse(), min = (maps.at(1)??[]).reverse();
+            //what will be transported to the next iteration
+            let carry: number = 0;
+            for(let i: number = 0; i < max.length; i++) {
+                //the digit on top of the operator
+                const upperDigit: number = max.at(i) ?? 0;
+                //same, but the bottom digit
+                const lowerDigit: number = min.at(i) ?? 0;
+                //the total of the substation (increased lower digit by carry because if result is < 0
+                // then that means we have to increase the upper number by 10)
+                const total = upperDigit - (lowerDigit + carry);
+                //if the upper number is smaller than the lower number
+                if(total < 0) {
+                    //then we'll have to "burry" a one to the next digit
+                    carry = 1;
+                    //and we push what remains after burring the one, as a positive number
+                    final.push(
+                        10 - Math.sqrt(Math.pow(total,2))
+                    );
+                } else {
+                    //if the upper number is bigger or equal to the lower number then no carry is needed
+                    carry = 0;
+                    final.push(total);
+                }
+            }
+
+            //We put the result to the current number, and that's it, we've added the two numbers !
+            const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
+            this.exponent = max.length - 1
+            this.decimal = super.round(parseFloat(fresh.join("")))
+        } else {
+            //if the exponent of number 2 is superior to the current exponent
+            if(numberTwo.exponent > this.exponent) {
+                //then we replace data in current number for number 2
+                this.exponent = numberTwo.exponent
+                this.decimal = numberTwo.decimal
+            }
+        }
+
+        return this;
+
+    }
+
 
     /**
      * Determines if two numbers are addable by comparing exponents

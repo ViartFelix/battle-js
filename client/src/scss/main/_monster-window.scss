@@ -22,6 +22,8 @@
                 object-fit: contain;
                 object-position: center;
                 transform-origin: bottom center;
+                cursor: pointer;
+                user-select: none;
 
                 &.boss {
                     transform: scale(1.5);

@@ -1,16 +1,17 @@
 import Model from "./Model";
 import {socketService} from "../services/SocketService";
-import Exponent from "../handlers/Exponent";
-import {displayService} from "../services/DisplayService";
-import Monster from "./Monster";
 import MonsterRes from "../reqRes/MonsterRes";
+import {levelsHandler} from "../handlers/LevelsHandler";
+import {displayService} from "../services/DisplayService";
 
 export default class Level extends Model
 {
-
+    /** Current level as number */
     private readonly _level: number;
-    /** The current monster */
-    private _monster: Monster;
+    /** Current monsters slain in this zone */
+    private _progression: number = 0;
+    /** Limit of monster to slain before next level */
+    private readonly _limit: number = 10;
 
     /**
      * Generates a new level
@@ -20,7 +21,7 @@ export default class Level extends Model
         super();
 
         this._level = level;
-        this.fetchInfos()
+        this.init()
     }
 
     /**
@@ -32,49 +33,47 @@ export default class Level extends Model
 
     }
 
-    /**
-     * Fetches details of the level to the socket
-     * @private
-     */
-    private fetchInfos(): void
+    public addToProgression(): void
     {
-        socketService.on("levelInfosResponse", (data: any) => {
-
-            const res = data.enemy as MonsterRes;
-            this._monster = new Monster(res);
-
-
-            this.updateDisplays();
-            this._monster.updateMonster(true);
-        })
-
-        //monster HP
-        let hp;
-        if(this._monster != undefined) {
-            if(this._monster.isBoss) {
-                this._monster.enemyHp.getNumberMap().pop();
-            }
-
-            hp = this._monster.enemyHp.getNumberMap()
+        if(this._progression >= this._limit) {
+            this._progression = this._limit;
         } else {
-            hp = [1,0]
+            this._progression += 1;
         }
-
-        //first emit for the first level
-        socketService.emit("levelInfosRequest", {
-            level: this._level,
-            hp: hp,
-        })
     }
 
     /**
-     * Updates the different displays related to the level
+     * Determines of the player can access the next level
      * @private
      */
-    private updateDisplays(): void
+    public isAbleToGoNextLevel(pb: Level): boolean
     {
+        return this.level <= pb.level && this.progression >= this.limit
+    }
 
+    /**
+     * Updates the UI elements of the level
+     */
+    public updateLevelUI(next: boolean, previous: boolean): void
+    {
+        displayService.updateDisplay('level', this._level)
+        displayService.updateDisplay('remain-current', this._progression)
+        displayService.updateDisplay('remain-total', this._limit)
+
+        if(next) {
+            displayService.getDisplay('next').classList.remove('disabled')
+        } else {
+            displayService.getDisplay('next').classList.add('disabled')
+        }
+
+        if(previous) {
+            displayService.getDisplay('previous').classList.remove('disabled')
+        } else {
+            displayService.getDisplay('previous').classList.add('disabled')
+        }
     }
 
     get level(): number { return this._level; }
+    get limit(): number { return this._limit; }
+    get progression(): number { return this._progression; }
 }
