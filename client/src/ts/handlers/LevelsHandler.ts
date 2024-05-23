@@ -64,6 +64,11 @@ class LevelsHandler
      */
     private handleMonsterRequest(data: MonsterRes)
     {
+        if(this._monster!= undefined)
+        {
+            this._monster.unbindEvents();
+        }
+
         this._monster = new Monster(data)
         this.updateDisplays()
     }
@@ -167,14 +172,6 @@ class LevelsHandler
     {
         //updates the monster display
         this._monster.updateMonster(true);
-
-        //updates the level display
-        const canGoBack = this._currentLevel.canGoPreviousLevel();
-        const canGoForward = this._currentLevel.canGoNextLevel();
-
-
-        //console.log(canGoForward)
-
         this._currentLevel.updateLevelUI();
     }
 

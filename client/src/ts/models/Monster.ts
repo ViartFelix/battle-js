@@ -3,8 +3,6 @@ import {displayService} from "../services/DisplayService";
 import Exponent from "../handlers/Exponent";
 import MonsterRes from "../reqRes/MonsterRes";
 import MonsterDamageEvent from "../events/MonsterDamageEvent";
-import LevelChangeEvent from "../events/LevelChangeEvent";
-import {levelsHandler} from "../handlers/LevelsHandler";
 import MonsterKillEvent from "../events/MonsterKillEvent";
 
 export default class Monster extends Model
@@ -13,13 +11,16 @@ export default class Monster extends Model
     private readonly _enemyHp: Exponent;
     /** Current dropped gold by zone */
     private readonly _enemyGold: Exponent;
+    /** The monster displayed name */
+    private readonly _monsterName: string;
 
     /** If the level indicated is a boss level */
     private readonly _isBoss: boolean = false;
     /** Id of the monster */
     private readonly _id: number;
 
-    private readonly _monsterName: string;
+    /** "Binder" of the monster damage handler to store events  */
+    private readonly monsterDamageHandlerBound: (event: MonsterDamageEvent) => void;
 
 
     constructor(monsterRep: MonsterRes)
@@ -38,16 +39,27 @@ export default class Monster extends Model
         this._isBoss = monsterRep.isBoss;
         this._id = monsterRep.id;
 
+        //bind the binder to the handler
+        this.monsterDamageHandlerBound = this.monsterDamageHandler.bind(this)
+
         this.bindEvents()
     }
 
     /**
-     * Binds events of the DOM to handles
+     * Binds events of the DOM to handle
      * @private
      */
     private bindEvents(): void
     {
-        window.addEventListener("monsterDamage", (event: MonsterDamageEvent) => this.monsterDamageHandler(event))
+        window.addEventListener("monsterDamage", this.monsterDamageHandlerBound);
+    }
+
+    /**
+     * Unbinds events of the DOM
+     */
+    public unbindEvents(): void
+    {
+        window.removeEventListener("monsterDamage",this.monsterDamageHandlerBound);
     }
 
     /**

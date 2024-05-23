@@ -1,9 +1,6 @@
 import Model from "./Model";
-import {socketService} from "../services/SocketService";
-import MonsterRes from "../reqRes/MonsterRes";
 import {levelsHandler} from "../handlers/LevelsHandler";
 import {displayService} from "../services/DisplayService";
-import LevelChangeEvent, {LevelChangeType} from "../events/LevelChangeEvent";
 
 export default class Level extends Model
 {

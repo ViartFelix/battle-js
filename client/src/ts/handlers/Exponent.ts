@@ -1,5 +1,6 @@
 import PrecisionContract from "../contracts/PrecisionContract";
 import ExponentException from "../Exceptions/ExponentException";
+import {lowerFirst} from "lodash";
 
 export default class Exponent extends PrecisionContract
 {
@@ -92,32 +93,47 @@ export default class Exponent extends PrecisionContract
 
             /** The final array, to parse after the addition. Array of string for super.parseDecimals */
             const final: Array<number> = new Array<number>(max.length).fill(0);
-            /** The rest to transport to the array at the next iteration. */
-            let carry = 0;
 
-            //we iterate in the max array
-            for(let i = 0; i < max.length; i++) {
-                //max and min digits
-                const digitMax = max[i] ?? 0;
-                const digitMin = min[i] ?? 0;
+            //if length of max is 1
+            if(max.length === 1) {
+                //we just have to add the numbers as classic numbers
+                const numOne = this.getRawNumber()
+                const numTwo = numberTwo.getRawNumber()
+                const numFinal = numOne + numTwo;
+                //parse decimals
+                const fresh: Array<string> = super.parseDecimals(numFinal.toString())
+                this.exponent = fresh.length - 1
+                this.decimal = super.round(parseFloat(fresh.join("")))
+            } else {
+                /** The rest to transport to the array at the next iteration. */
+                let carry = 0;
 
-                //the sum
-                const sum = (digitMax + digitMin + carry);
-                //we push the sum into the final array
-                final[i] = sum % 10;
-                //we add the carry for next loop
-                carry = Math.floor(sum / 10);
+                //we iterate in the max array
+                for(let i = 0; i < max.length; i++) {
+                    //max and min digits
+                    const digitMax = max[i] ?? 0;
+                    const digitMin = min[i] ?? 0;
+
+                    //the sum
+                    const sum = (digitMax + digitMin + carry);
+                    //we push the sum into the final array
+                    final[i] = sum % 10;
+                    //we add the carry for next loop
+                    carry = Math.floor(sum / 10);
+                }
+                //if they are any carry after the loop
+                if(carry > 0) {
+                    //we push the carry into the final array
+                    final.push(carry)
+                }
+
+                //We put the result to the current number, and that's it, we've added the two numbers !
+                const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
+                this.exponent = max.length - 1
+                this.decimal = super.round(parseFloat(fresh.join("")))
             }
-            //if they are any carry after the loop
-            if(carry > 0) {
-                //we push the carry into the final array
-                final.push(carry)
-            }
 
-            //We put the result to the current number, and that's it, we've added the two numbers !
-            const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
-            this.exponent = max.length - 1
-            this.decimal = super.round(parseFloat(fresh.join("")))
+
         } else {
             //if the exponent of number 2 is superior to the current exponent
             if(numberTwo.exponent > this.exponent) {
@@ -183,6 +199,7 @@ export default class Exponent extends PrecisionContract
             const max = (maps.at(0)??[]).reverse(), min = (maps.at(1)??[]).reverse();
             //what will be transported to the next iteration
             let carry: number = 0;
+
             for(let i: number = 0; i < max.length; i++) {
                 //the digit on top of the operator
                 const upperDigit: number = max.at(i) ?? 0;
