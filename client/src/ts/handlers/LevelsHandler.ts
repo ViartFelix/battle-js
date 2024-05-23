@@ -64,12 +64,18 @@ class LevelsHandler
      */
     private handleMonsterRequest(data: MonsterRes)
     {
-        if(this._monster!= undefined)
+        if(this._monster != undefined)
         {
             this._monster.unbindEvents();
         }
 
         this._monster = new Monster(data)
+
+        //level init after new monster to apply the limit
+        this._currentLevel.init(
+            this._monster.isBoss
+        )
+
         this.updateDisplays()
     }
 

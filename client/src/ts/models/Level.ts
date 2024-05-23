@@ -9,7 +9,7 @@ export default class Level extends Model
     /** Current monsters slain in this zone */
     private _progression: number = 0;
     /** Limit of monster to slain before next level */
-    private readonly _limit: number = 10;
+    private _limit: number = 10;
 
     /**
      * Generates a new level
@@ -19,16 +19,17 @@ export default class Level extends Model
         super();
 
         this._level = level;
-        this.init()
     }
 
     /**
      * Initializes the level
      * @private
      */
-    private init(): void
+    public init(isBossLevel: boolean): void
     {
-
+        if(isBossLevel) {
+            this._limit = 1;
+        }
     }
 
     public addToProgression(): void
