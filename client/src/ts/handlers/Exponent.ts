@@ -182,14 +182,76 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
-     * Will subtract the current number stored to another number
+     * Version 2
      * @param numberTwo
      */
     public subtract(numberTwo: Exponent): this
     {
+        const final: number[] = [];
+
+        const nOne = this.getNumberMap().reverse();
+        const nTwo = numberTwo.getNumberMap().reverse();
+
+        //if we can subtract the first number with the second number
+        if(nOne.length > nTwo.length) {
+            const max = Math.max(nOne.length, nTwo.length);
+            let carry: number = 0;
+
+            for(let i: number = 0; i <= max; i++) {
+                //the digit on top of the operator
+                const upperDigit: number = nOne.at(i) ?? 0;
+                //same, but the bottom digit
+                const lowerDigit: number = nTwo.at(i) ?? 0;
+
+                const total = upperDigit - (lowerDigit + carry);
+
+                //if the upper number is smaller than the lower number
+                if(total < 0) {
+                    //then we'll have to "burry" a one to the next digit
+                    carry = 1;
+                    //and we push what remains after burring the one, as a positive number
+                    final.push(
+                        10 - Math.sqrt(Math.pow(total,2))
+                    );
+
+                    //console.log(10 - Math.sqrt(Math.pow(total,2)), Math.sqrt(Math.pow(total,2)))
+                } else {
+                    //if the upper number is bigger or equal to the lower number then no carry is needed
+                    carry = 0;
+                    final.push(total);
+                }
+            }
+            //if a useless 0 is here, then we delete it
+            if(final.at(final.length - 1) === 0) {
+                final.pop()
+            }
+
+            //We put the result to the current number, and that's it, we've added the two numbers !
+            const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
+            //this.exponent = max - 1
+            //this.decimal = super.round(parseFloat(fresh.join("")))
+
+        }
+        //else that means we return 0
+        else {
+            this.decimal = 0;
+            this.exponent = 0;
+        }
+
+        return this;
+    }
+
+    /**
+     * Will subtract the current number stored to another number
+     * @param numberTwo
+     */
+    public subtracta(numberTwo: Exponent): this
+    {
+        console.log(numberTwo.getRawNumber(), this.getRawNumber())
+
         if(this.isAddable(numberTwo)) {
             const final: number[] = [];
-            const rawResults: number[] = [];
+            //const rawResults: number[] = [];
             //we get the two number maps, and sort them from biggest to smallest
             const maps = [
                 this.getNumberMap(),
@@ -205,10 +267,12 @@ export default class Exponent extends PrecisionContract
                 const upperDigit: number = max.at(i) ?? 0;
                 //same, but the bottom digit
                 const lowerDigit: number = min.at(i) ?? 0;
+
+                console.log(upperDigit, lowerDigit, i);
                 //the total of the substation (increased lower digit by carry because if result is < 0
                 // then that means we have to increase the upper number by 10)
                 const total = upperDigit - (lowerDigit + carry);
-                rawResults.push(total)
+                //rawResults.push(total)
                 //if the upper number is smaller than the lower number
                 if(total < 0) {
                     //then we'll have to "burry" a one to the next digit
@@ -223,6 +287,14 @@ export default class Exponent extends PrecisionContract
                     final.push(total);
                 }
             }
+
+            if(carry < 0) {
+                final.push(
+                    10 - Math.sqrt(Math.pow(carry,2))
+                );
+            }
+
+            console.log(final);
 
             //We put the result to the current number, and that's it, we've added the two numbers !
             const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
