@@ -25,7 +25,7 @@ export default abstract class PrecisionContract
      * Parse a number to the number of decimals
      * @protected
      */
-    protected parseDecimals(number: string|number|Array<string>): Array<string>
+    protected parseDecimals(number: string|number|Array<string>): any
     {
         //futur parsed string
         let futurParsed: string;
@@ -35,26 +35,52 @@ export default abstract class PrecisionContract
             case "object": futurParsed = number.join(''); break;
             default: futurParsed = number; break;
         }
-        //and we return a filtered array of it's useless decimals behind the precision
-        return futurParsed.split('').map((el: any, i: number, array: string[]) => {
-            //what will be returned
-            let final: string | undefined;
 
-            //if the index is bellow the threshold of the precision
-            if (i < this.getPrecision() + 1 && el !== undefined) {
-                if(!isNaN(+el.toString())) {
-                    //putting the number as str
-                    final = el.toString()
-                    //putting a dot if this is the first number and if it's not a single number (just in case, ts moment)
-                    if (i === 0 && array.length > 1) {
-                        final += "."
+        /** the exponent of the number to parse. Because it originates from the biggest number, we can use this info wisely (?) */
+        const exponent: number = futurParsed.length;
+        /** leading zeroes that are useless */
+        const leadingZeroes: number = (futurParsed.match(/^0*/)[0].length)
+
+        /** What final string will be parsed: stripped from leading zeroes */
+        const finalParse = futurParsed.slice(leadingZeroes);
+
+        //if the finalParsed is empty, then that means we got a 0 on our hands
+        if(finalParse.length === 0) {
+            //and we return a 0
+            return {
+                decimal: 0,
+                exponent: 0
+            } as PrecisionContractRound
+        }
+        //else that means the number can be parsed
+        else {
+            //and we return a filtered array of it's useless decimals behind the precision
+            const freshParse = finalParse.split('').map((el: any, i: number, array: string[]) => {
+                //what will be returned
+                let final: string | undefined;
+
+                //if the index is bellow the threshold of the precision
+                if (i < this.getPrecision() + 1 && el !== undefined) {
+                    if(!isNaN(+el.toString())) {
+                        //putting the number as str
+                        final = el.toString()
+                        //putting a dot if this is the first number and if it's not a single number (just in case, ts moment)
+                        if (i === 0 && array.length > 1) {
+                            final += "."
+                        }
                     }
                 }
-            }
+                //return the final number
+                return final;
+            }).filter((val) => val !== undefined);
+            return {
+                decimal: parseFloat(freshParse.join("")),
+                //idk why -1 but that works as intended with that lmao
+                exponent: finalParse.length - 1
+            } as PrecisionContractRound
+        }
 
-            //return the final number
-            return final;
-        }).filter((val) => val !== undefined);
+
     }
 
     /**
@@ -97,4 +123,10 @@ export default abstract class PrecisionContract
         return this.displayThreshold;
     }
 
+}
+
+export interface PrecisionContractRound
+{
+    decimal: number;
+    exponent: number;
 }

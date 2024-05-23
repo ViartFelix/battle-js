@@ -1,4 +1,4 @@
-import PrecisionContract from "../contracts/PrecisionContract";
+import PrecisionContract, {PrecisionContractRound} from "../contracts/PrecisionContract";
 import ExponentException from "../Exceptions/ExponentException";
 import {lowerFirst} from "lodash";
 
@@ -10,9 +10,6 @@ export default class Exponent extends PrecisionContract
     private decimal: number;
     /** The exponent */
     private exponent: number;
-
-    /** Number of exponent without any decimals */
-    private exponentWithoutDecimal: number;
 
     constructor(number?: number|string|undefined) {
         super();
@@ -59,17 +56,16 @@ export default class Exponent extends PrecisionContract
                 splitDecimals[1] ?? ""
             ).length;
 
-            this.exponentWithoutDecimal = rawExponent - toDeduct
             //setting the exponent (right-side of the number)
             this.exponent = rawExponent;
             //setting the decimals by rounding it
             this.decimal = super.round(rawDecimal);
         } else {
-            const fresh = super.parseDecimals(toParse.split(''));
+            const fresh: PrecisionContractRound = super.parseDecimals(toParse.split(''));
 
             //putting the data into the object
             this.exponent = super.getExponent(toParse)
-            this.decimal = parseFloat(fresh.join(""))
+            this.decimal = parseFloat(fresh.decimal.toString())
         }
 
         return this;
@@ -101,9 +97,9 @@ export default class Exponent extends PrecisionContract
                 const numTwo = numberTwo.getRawNumber()
                 const numFinal = numOne + numTwo;
                 //parse decimals
-                const fresh: Array<string> = super.parseDecimals(numFinal.toString())
-                this.exponent = fresh.length - 1
-                this.decimal = super.round(parseFloat(fresh.join("")))
+                const fresh: PrecisionContractRound = super.parseDecimals(numFinal.toString())
+                this.exponent = fresh.exponent
+                this.decimal = super.round(parseFloat(fresh.decimal.toString()))
             } else {
                 /** The rest to transport to the array at the next iteration. */
                 let carry = 0;
@@ -128,12 +124,10 @@ export default class Exponent extends PrecisionContract
                 }
 
                 //We put the result to the current number, and that's it, we've added the two numbers !
-                const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
-                this.exponent = max.length - 1
-                this.decimal = super.round(parseFloat(fresh.join("")))
+                const fresh: PrecisionContractRound = super.parseDecimals(final.reverse().map(String))
+                this.exponent = fresh.exponent
+                this.decimal = super.round(parseFloat(fresh.decimal.toString()))
             }
-
-
         } else {
             //if the exponent of number 2 is superior to the current exponent
             if(numberTwo.exponent > this.exponent) {
@@ -209,20 +203,20 @@ export default class Exponent extends PrecisionContract
             const max: number = Math.max(upper.length, lower.length);
 
             //basically what we're going to do is loop in all numbers
-            for(let i: number = max; i > 0; i--) {
+            for(let i: number = max - 1; i >= 0; i--) {
                 //the digit on top
                 const upperDigit: number = upper.at(i) ?? 0;
                 //same, but the bottom digit
                 const lowerDigit: number = lower.at(i) ?? 0;
                 /** if it's the last turn */
-                const lastLoop = i === 1;
+                const lastLoop = i === 0;
                 //then check if the current upper number is bigger than the current lower number
                 if(upperDigit > lowerDigit) {
                     //if true, then we can stop and return true.
                     result = true
                 }
                 //else if it's the last loop and the upper number is equals to the lower number
-                else if(lastLoop && upperDigit === lowerDigit) {
+                else if(lastLoop && upperDigit === lowerDigit && result === false) {
                     //then that means the 2 numbers are equal, and thus can be subtracted
                     result = true;
                 }
@@ -234,7 +228,7 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
-     * Version 2
+     * Will subtract the current number stored to another number
      * @param numberTwo
      */
     public subtract(numberTwo: Exponent): this
@@ -274,89 +268,16 @@ export default class Exponent extends PrecisionContract
             if(final.at(final.length - 1) === 0) {
                 final.pop()
             }
-
-            //We put the result to the current number, and that's it, we've added the two numbers !
-            const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
-            this.exponent = max - 1
-            this.decimal = super.round(parseFloat(fresh.join("")))
+            //We put the result to the current number, and that's it, we've subtracted the two numbers !
+            const fresh: PrecisionContractRound = super.parseDecimals(final.reverse().map(String))
+            this.exponent = fresh.exponent
+            this.decimal = super.round(parseFloat(fresh.decimal.toString()))
         } else {
             this.decimal = 0;
             this.exponent = 0;
         }
 
         return this;
-    }
-
-    /**
-     * Will subtract the current number stored to another number
-     * @param numberTwo
-     */
-    public subtracta(numberTwo: Exponent): this
-    {
-        console.log(numberTwo.getRawNumber(), this.getRawNumber())
-
-        if(this.isAddable(numberTwo)) {
-            const final: number[] = [];
-            //const rawResults: number[] = [];
-            //we get the two number maps, and sort them from biggest to smallest
-            const maps = [
-                this.getNumberMap(),
-                numberTwo.getNumberMap()
-            ].sort((a: number[], b: number[]) => b.length - a.length);
-            //we fetch the biggest and smallest array
-            const max = (maps.at(0)??[]).reverse(), min = (maps.at(1)??[]).reverse();
-            //what will be transported to the next iteration
-            let carry: number = 0;
-
-            for(let i: number = 0; i < max.length; i++) {
-                //the digit on top of the operator
-                const upperDigit: number = max.at(i) ?? 0;
-                //same, but the bottom digit
-                const lowerDigit: number = min.at(i) ?? 0;
-
-                console.log(upperDigit, lowerDigit, i);
-                //the total of the substation (increased lower digit by carry because if result is < 0
-                // then that means we have to increase the upper number by 10)
-                const total = upperDigit - (lowerDigit + carry);
-                //rawResults.push(total)
-                //if the upper number is smaller than the lower number
-                if(total < 0) {
-                    //then we'll have to "burry" a one to the next digit
-                    carry = 1;
-                    //and we push what remains after burring the one, as a positive number
-                    final.push(
-                        10 - Math.sqrt(Math.pow(total,2))
-                    );
-                } else {
-                    //if the upper number is bigger or equal to the lower number then no carry is needed
-                    carry = 0;
-                    final.push(total);
-                }
-            }
-
-            if(carry < 0) {
-                final.push(
-                    10 - Math.sqrt(Math.pow(carry,2))
-                );
-            }
-
-            console.log(final);
-
-            //We put the result to the current number, and that's it, we've added the two numbers !
-            const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
-            this.exponent = max.length - 1
-            this.decimal = super.round(parseFloat(fresh.join("")))
-        } else {
-            //if the exponent of number 2 is superior to the current exponent
-            if(numberTwo.exponent > this.exponent) {
-                //then we replace data in current number for number 2
-                this.exponent = numberTwo.exponent
-                this.decimal = numberTwo.decimal
-            }
-        }
-
-        return this;
-
     }
 
 
