@@ -182,18 +182,69 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
+     * Determines if the given number can be subtracted from the current number
+     * @param numberTwo
+     * @private
+     */
+    public canSubstract(numberTwo: Exponent): boolean
+    {
+        //if the length of the second number is superior to the current number
+        if(numberTwo.exponent > this.exponent) {
+            //then that means we'll have a negative number, which is to avoid in this context
+            return false;
+        }
+        else if(this.exponent > numberTwo.exponent) {
+            //else if the current number have a bigger exponent than the second number
+            //then that means we can subtract the current number from the second number
+            return true;
+        }
+        else {
+            let result: boolean = false;
+
+            /** the upper number in the subtraction */
+            const upper: number[] = this.getNumberMap().reverse();
+            /** the lower number in the subtraction */
+            const lower: number[] = numberTwo.getNumberMap().reverse();
+            //max length
+            const max: number = Math.max(upper.length, lower.length);
+
+            //basically what we're going to do is loop in all numbers
+            for(let i: number = max; i > 0; i--) {
+                //the digit on top
+                const upperDigit: number = upper.at(i) ?? 0;
+                //same, but the bottom digit
+                const lowerDigit: number = lower.at(i) ?? 0;
+                /** if it's the last turn */
+                const lastLoop = i === 1;
+                //then check if the current upper number is bigger than the current lower number
+                if(upperDigit > lowerDigit) {
+                    //if true, then we can stop and return true.
+                    result = true
+                }
+                //else if it's the last loop and the upper number is equals to the lower number
+                else if(lastLoop && upperDigit === lowerDigit) {
+                    //then that means the 2 numbers are equal, and thus can be subtracted
+                    result = true;
+                }
+                //else we continue in the loop, because tha means
+            }
+            //and we return the result, because only when the upper number is bigger or equals than the lower number is true
+            return result;
+        }
+    }
+
+    /**
      * Version 2
      * @param numberTwo
      */
     public subtract(numberTwo: Exponent): this
     {
-        const final: number[] = [];
+        if(this.canSubstract(numberTwo)) {
+            const final: number[] = [];
 
-        const nOne = this.getNumberMap().reverse();
-        const nTwo = numberTwo.getNumberMap().reverse();
+            const nOne = this.getNumberMap().reverse();
+            const nTwo = numberTwo.getNumberMap().reverse();
 
-        //if we can subtract the first number with the second number
-        if(nOne.length > nTwo.length) {
             const max = Math.max(nOne.length, nTwo.length);
             let carry: number = 0;
 
@@ -213,8 +264,6 @@ export default class Exponent extends PrecisionContract
                     final.push(
                         10 - Math.sqrt(Math.pow(total,2))
                     );
-
-                    //console.log(10 - Math.sqrt(Math.pow(total,2)), Math.sqrt(Math.pow(total,2)))
                 } else {
                     //if the upper number is bigger or equal to the lower number then no carry is needed
                     carry = 0;
@@ -228,12 +277,9 @@ export default class Exponent extends PrecisionContract
 
             //We put the result to the current number, and that's it, we've added the two numbers !
             const fresh: Array<string> = super.parseDecimals(final.reverse().map(String))
-            //this.exponent = max - 1
-            //this.decimal = super.round(parseFloat(fresh.join("")))
-
-        }
-        //else that means we return 0
-        else {
+            this.exponent = max - 1
+            this.decimal = super.round(parseFloat(fresh.join("")))
+        } else {
             this.decimal = 0;
             this.exponent = 0;
         }
