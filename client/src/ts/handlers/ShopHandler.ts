@@ -15,7 +15,7 @@ class ShopHandler {
     constructor() {
         //binds container
         this._container = document.querySelector("[data-el='shop'] div.shop-container")
-        this._money = new Exponent("5000000").parse();
+        this._money = new Exponent("0").parse();
         this.updateDisplays()
     }
 
