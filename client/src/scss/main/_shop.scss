@@ -34,6 +34,9 @@
     grid-template-columns: 1fr 3rem;
     align-items: center;
     justify-content: space-between;
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0);
+    opacity: 1;
 
     div.class-container {
         padding: 0.5rem 0.5rem 0.5rem 0;
@@ -64,6 +67,7 @@
             }
 
             div.class-stats {
+
                 * {
                     font-weight: 200;
                 }
@@ -81,6 +85,7 @@
     }
 
     &.locked {
-        display: none !important;
+        opacity: 0 !important;
+        transform: translateX(-100vw) !important;
     }
 }

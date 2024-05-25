@@ -1,6 +1,5 @@
 import PrecisionContract, {PrecisionContractRound} from "../contracts/PrecisionContract";
 import ExponentException from "../Exceptions/ExponentException";
-import {lowerFirst} from "lodash";
 
 export default class Exponent extends PrecisionContract
 {
@@ -11,10 +10,17 @@ export default class Exponent extends PrecisionContract
     /** The exponent */
     private exponent: number;
 
-    constructor(number?: number|string|undefined) {
+    constructor(number?: number|string|Array<number>|Array<string>|undefined) {
         super();
-
-        if(typeof number !== "undefined") {
+        //if the number is and array of some sort
+        if(typeof number === "object") {
+            this.original = number.map((val) => {
+                //we'll try to parse the values inside as string numbers
+                return val.toString().toLowerCase();
+            })
+            //and we convert it as a string
+            .join("");
+        } else {
             this.original = number.toString().toLowerCase();
         }
     }
@@ -280,6 +286,42 @@ export default class Exponent extends PrecisionContract
         return this;
     }
 
+    /**
+     * Multiply two numbers map together
+     * @param times
+     */
+    public multiply(times: number): this
+    {
+        //multiplication by 0
+        if(times === 0) {
+            this.decimal = 0;
+            this.exponent = 0;
+        }
+        //multiplication by 1 or more
+        else {
+            //we iterate in the number of times to multiply the number
+            for(let i = 0; i < times - 1; i++) {
+                //and we add the number to the result
+                this.add(this);
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Gets the 10% of the current number
+     */
+    public getTenPercent(): Exponent
+    {
+        const numberMap = this.getNumberMap();
+        //if there is 2 or more digits
+        if(numberMap.length > 1) {
+            numberMap.pop()
+        }
+
+        return new Exponent(numberMap.join("")).parse();
+    }
 
     /**
      * Determines if two numbers are addable by comparing exponents

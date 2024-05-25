@@ -1,5 +1,5 @@
 import {fsService} from "./FsService";
-import Class from "../models/Hero";
+import Hero from "../models/Hero";
 
 class ClassService
 {
@@ -7,7 +7,7 @@ class ClassService
     private raw: Array<any> | undefined;
 
     /** Holds all cleaned data */
-    private data: Array<Class> = Array();
+    private data: Array<Hero> = Array();
 
     constructor() {
         this.init()
@@ -24,14 +24,14 @@ class ClassService
         //cleaning the json parsed data
         this.raw?.forEach((cls) => {
             //"clean" hero as class & adding the data
-            this.data.push(cls as Class)
+            this.data.push(cls as Hero)
         })
     }
 
     /**
      * Get all classes data
      */
-    public getClasses(): Array<Class>
+    public getClasses(): Array<Hero>
     {
         return this.data
     }

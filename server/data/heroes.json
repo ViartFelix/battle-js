@@ -1,5 +1,5 @@
 [
-    {"name": "Warrior", "tier": 1, "id": 1, "price": "5e0", "dmg": "5e0"},
+    {"name": "Warrior", "tier": 1, "id": 1, "price": "5e0", "dmg": "2e0"},
     {"name": "Mage", "tier": 1, "id": 2, "price": "5e1", "dmg": "2.2e1"},
     {"name": "Thief", "tier": 1, "id": 3, "price": "2.5e2", "dmg": "7.4e1"},
     {"name": "Knight", "tier": 2, "id": 4, "price": "1e3", "dmg": "2.5e2"},

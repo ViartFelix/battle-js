@@ -1,4 +1,4 @@
-export default interface Class
+export default interface Hero
 {
     /**  Name of the class */
     name: string;

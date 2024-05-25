@@ -18,11 +18,9 @@ class AssetService implements ServiceContact {
      * Returns a url for a enemy image
      * @param id
      */
-    public ennemy(id: number): any {
+    public enemy(id: number): any {
         return "enemies/"+id+".png"
     }
-
-
 }
 
 export const assetService = new AssetService();

@@ -3,15 +3,20 @@ import Hero from "../models/Hero";
 import Exponent from "./Exponent";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import {displayService} from "../services/DisplayService";
+import HeroBuyEvent from "../events/HeroBuyEvent";
 
 
 class ShopHandler {
-    private container: HTMLElement;
-    private money: Exponent;
+
+
+    private readonly _container: HTMLElement;
+    private readonly _money: Exponent;
 
     constructor() {
-        this.container = document.querySelector("[data-el='shop'] div.shop-container")
-        this.money = new Exponent("0").parse();
+        //binds container
+        this._container = document.querySelector("[data-el='shop'] div.shop-container")
+        this._money = new Exponent("5000000").parse();
+        this.updateDisplays()
     }
 
     /**
@@ -40,7 +45,7 @@ class ShopHandler {
                     .cloneShopItem()
                     .putAttributes()
                     .bindEvents()
-                    .appendToShop(this.container)
+                    .appendToShop(this._container)
             }
         })
     }
@@ -54,12 +59,28 @@ class ShopHandler {
         //custom money receive event
         window.addEventListener('moneyReceive', (event: MoneyReceivedEvent) => {
             const amount = event.amount
-            this.money.add(amount)
-            displayService.updateDisplay('gold', this.money)
+            this._money.add(amount)
+            this.updateDisplays()
+        })
+
+        window.addEventListener('heroBuy', (event: HeroBuyEvent) => {
+            this._money.subtract(event.price)
+            this.updateDisplays()
         })
     }
 
+    /**
+     * Updates the different displays related to the shop (especially money)
+     * @private
+     */
+    private updateDisplays(): void
+    {
+        displayService.updateDisplay('gold', this._money)
+    }
 
+
+    get container(): HTMLElement { return this._container; }
+    get money(): Exponent { return this._money; }
 }
 
 export const shopHandler = new ShopHandler();
