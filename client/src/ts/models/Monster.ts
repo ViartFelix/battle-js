@@ -70,16 +70,24 @@ export default class Monster extends Model
     private monsterDamageHandler(event: MonsterDamageEvent): void
     {
         //get and apply the damage to the monster
-        const damage = event.damage
-        this.enemyHp.subtract(damage)
+        const damage: Exponent = event.damage
+        //new instance of the monster hp, to run calculations after
+        const hpMap = this.enemyHp.getNumberMap()
+        const hpNew = new Exponent(hpMap).parse()
+        //because of how subtraction is calculated, it will return 0 if the 2 numbers are can't be subtracted
+        /** Next future damage */
+        const futureHp: Exponent = hpNew.subtract(damage)
 
-        //if monster is dead, trigger the level progression
-        if(this.enemyHp.getRawNumber() <= 0) {
+        //if the monster will be dead
+        if(futureHp.decimal === 0 && futureHp.exponent === 0) {
+            //tell the whole app that the monster is dead
             const changeMonster = new MonsterKillEvent()
-
             window.dispatchEvent(changeMonster)
+        } else {
+            this.enemyHp.subtract(damage)
         }
 
+        //in any case, updates the monster display
         this.updateMonster(false)
     }
 

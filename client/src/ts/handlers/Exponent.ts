@@ -3,25 +3,25 @@ import ExponentException from "../Exceptions/ExponentException";
 
 export default class Exponent extends PrecisionContract
 {
-    private readonly original: string;
+    private readonly _original: string;
 
     /** The first part of the decimal number */
-    private decimal: number;
+    private _decimal: number;
     /** The exponent */
-    private exponent: number;
+    private _exponent: number;
 
     constructor(number?: number|string|Array<number>|Array<string>|undefined) {
         super();
         //if the number is and array of some sort
         if(typeof number === "object") {
-            this.original = number.map((val) => {
+            this._original = number.map((val) => {
                 //we'll try to parse the values inside as string numbers
                 return val.toString().toLowerCase();
             })
             //and we convert it as a string
             .join("");
         } else {
-            this.original = number.toString().toLowerCase();
+            this._original = number.toString().toLowerCase();
         }
     }
 
@@ -35,7 +35,7 @@ export default class Exponent extends PrecisionContract
      */
     public parse(number?: string|undefined, show?: boolean): this
     {
-        if(typeof number === "undefined" && typeof this.original === "undefined") {
+        if(typeof number === "undefined" && typeof this._original === "undefined") {
             throw new ExponentException("The provided number and the number fed to the constructor is undefined.")
         }
 
@@ -43,7 +43,7 @@ export default class Exponent extends PrecisionContract
         const toParse = (
             number !== undefined
                 ? number.toLowerCase()
-                : this.original
+                : this._original
         );
 
         //if includes an exponent
@@ -63,15 +63,15 @@ export default class Exponent extends PrecisionContract
             ).length;
 
             //setting the exponent (right-side of the number)
-            this.exponent = rawExponent;
+            this._exponent = rawExponent;
             //setting the decimals by rounding it
-            this.decimal = super.round(rawDecimal);
+            this._decimal = super.round(rawDecimal);
         } else {
             const fresh: PrecisionContractRound = super.parseDecimals(toParse.split(''));
 
             //putting the data into the object
-            this.exponent = super.getExponent(toParse)
-            this.decimal = parseFloat(fresh.decimal.toString())
+            this._exponent = super.getExponent(toParse)
+            this._decimal = parseFloat(fresh.decimal.toString())
         }
 
         return this;
@@ -104,8 +104,8 @@ export default class Exponent extends PrecisionContract
                 const numFinal = numOne + numTwo;
                 //parse decimals
                 const fresh: PrecisionContractRound = super.parseDecimals(numFinal.toString())
-                this.exponent = fresh.exponent
-                this.decimal = super.round(parseFloat(fresh.decimal.toString()))
+                this._exponent = fresh.exponent
+                this._decimal = super.round(parseFloat(fresh.decimal.toString()))
             } else {
                 /** The rest to transport to the array at the next iteration. */
                 let carry = 0;
@@ -131,15 +131,15 @@ export default class Exponent extends PrecisionContract
 
                 //We put the result to the current number, and that's it, we've added the two numbers !
                 const fresh: PrecisionContractRound = super.parseDecimals(final.reverse().map(String))
-                this.exponent = fresh.exponent
-                this.decimal = super.round(parseFloat(fresh.decimal.toString()))
+                this._exponent = fresh.exponent
+                this._decimal = super.round(parseFloat(fresh.decimal.toString()))
             }
         } else {
             //if the exponent of number 2 is superior to the current exponent
-            if(numberTwo.exponent > this.exponent) {
+            if(numberTwo._exponent > this._exponent) {
                 //then we replace data in current number for number 2
-                this.exponent = numberTwo.exponent
-                this.decimal = numberTwo.decimal
+                this._exponent = numberTwo._exponent
+                this._decimal = numberTwo._decimal
             }
         }
         return this;
@@ -154,12 +154,12 @@ export default class Exponent extends PrecisionContract
         //final array
         const final: Array<number> = Array();
         //we fill the array with zeros
-        for(let i = 0; i < this.exponent + 1; i++) {
+        for(let i = 0; i < this._exponent + 1; i++) {
             final.push(0);
         }
 
         //split the decimals at the dot if there is some
-        const splitDecimal = this.decimal.toString().split(".")
+        const splitDecimal = this._decimal.toString().split(".")
 
         //if they are any decimals
         if(splitDecimal.length > 1) {
@@ -189,11 +189,11 @@ export default class Exponent extends PrecisionContract
     public canSubstract(numberTwo: Exponent): boolean
     {
         //if the length of the second number is superior to the current number
-        if(numberTwo.exponent > this.exponent) {
+        if(numberTwo._exponent > this._exponent) {
             //then that means we'll have a negative number, which is to avoid in this context
             return false;
         }
-        else if(this.exponent > numberTwo.exponent) {
+        else if(this._exponent > numberTwo._exponent) {
             //else if the current number have a bigger exponent than the second number
             //then that means we can subtract the current number from the second number
             return true;
@@ -276,11 +276,11 @@ export default class Exponent extends PrecisionContract
             }
             //We put the result to the current number, and that's it, we've subtracted the two numbers !
             const fresh: PrecisionContractRound = super.parseDecimals(final.reverse().map(String))
-            this.exponent = fresh.exponent
-            this.decimal = super.round(parseFloat(fresh.decimal.toString()))
+            this._exponent = fresh.exponent
+            this._decimal = super.round(parseFloat(fresh.decimal.toString()))
         } else {
-            this.decimal = 0;
-            this.exponent = 0;
+            this._decimal = 0;
+            this._exponent = 0;
         }
 
         return this;
@@ -294,8 +294,8 @@ export default class Exponent extends PrecisionContract
     {
         //multiplication by 0
         if(times === 0) {
-            this.decimal = 0;
-            this.exponent = 0;
+            this._decimal = 0;
+            this._exponent = 0;
         }
         //multiplication by 1 or more
         else {
@@ -329,8 +329,8 @@ export default class Exponent extends PrecisionContract
      */
     public isAddable(numberTwo: Exponent): boolean
     {
-        const max = Math.max(this.exponent, numberTwo.exponent)
-        const min = Math.min(this.exponent, numberTwo.exponent)
+        const max = Math.max(this._exponent, numberTwo._exponent)
+        const min = Math.min(this._exponent, numberTwo._exponent)
 
         const difference = max - min
         return difference <= super.getPrecision();
@@ -342,7 +342,7 @@ export default class Exponent extends PrecisionContract
      */
     public getRawNumber(): number
     {
-        return Math.floor(this.decimal * Math.pow(10, this.exponent))
+        return Math.floor(this._decimal * Math.pow(10, this._exponent))
     }
 
     /**
@@ -351,12 +351,16 @@ export default class Exponent extends PrecisionContract
     public toString(): string
     {
         //the number of digits is less than the raw display threshold
-        if(this.exponent < super.getDisplayThreshold()) {
+        if(this._exponent < super.getDisplayThreshold()) {
             //then return a parsed number (already string)
             return this.getRawNumber().toString()
         } else {
             //else we return the decimals version
-            return `${this.decimal}e${this.exponent}`
+            return `${this._decimal}e${this._exponent}`
         }
     }
+
+    get original(): string { return this._original; }
+    get decimal(): number { return this._decimal; }
+    get exponent(): number { return this._exponent; }
 }
