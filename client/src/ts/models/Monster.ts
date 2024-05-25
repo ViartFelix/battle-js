@@ -158,7 +158,6 @@ export default class Monster extends Model
 
         //now, we'll update the hp & time bar
         const hpBar = this._enemyHp
-        console.log(this.originalHp)
     }
 
     /**

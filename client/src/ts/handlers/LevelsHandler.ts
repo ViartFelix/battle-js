@@ -28,7 +28,7 @@ class LevelsHandler
      */
     public init(): void
     {
-        this._currentLevel = new Level(10)
+        this._currentLevel = new Level(1)
         this._pb = this._currentLevel
         this.bindEvents();
         this.monsterRequest();

@@ -9,7 +9,7 @@ export default class Level extends Model
     /** Current monsters slain in this zone */
     private _progression: number = 0;
     /** Limit of monster to slain before next level */
-    private _limit: number = 10;
+    private _limit: number = 1;
 
     /**
      * Generates a new level

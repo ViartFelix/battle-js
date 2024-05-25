@@ -190,8 +190,24 @@ class LevelService
         const isBoss: boolean = (zone % 10 === 0);
         const randomEnemy: Enemy = this.getRandomEnemyData(isBoss);
         randomEnemy.isBoss = isBoss
+        //changing this for better compatibility in cases where player wants either specific level or goes to previous level
+        //base HP as first value
+        let finalHp: number[] = [1,0]
 
-        randomEnemy.hp = this.getMonsterHp(zone, lastMonsterHP, isBoss);
+        for(let i = 1; i < zone - 1; i++) {
+            finalHp = this.getMonsterHp(zone, finalHp, (i % 10 === 0))
+        }
+
+        if(isBoss) {
+            finalHp = this.getMonsterHp(zone, finalHp, true)
+        }
+
+        if(zone===2) {
+            finalHp = this.add(finalHp, [8])
+        }
+
+
+        randomEnemy.hp = finalHp;
         randomEnemy.money = this.getMonsterGold(zone, isBoss);
 
         return randomEnemy;
@@ -212,14 +228,9 @@ class LevelService
         if(zone > 1) {
             //zone map
             const zoneMap = this.getNumberMap(zone);
-            //zone×0.1
-            let poped;
-            if(zone >= 10) {
-                zoneMap.pop();
-            }
-            poped = zoneMap
+            //zone×0.1 (useless now)
             //(1+zone×0.1)²
-            const onePlusPopedSquared = this.exponential(this.add([1], poped), 2)
+            const onePlusPopedSquared = this.exponential(this.add([1], zoneMap), 2)
             //previousHP + currentHP
             const finalHealth = this.add(onePlusPopedSquared, previousHP)
             return this.multiply(finalHealth, (
