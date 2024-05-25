@@ -4,6 +4,7 @@ import {assetService} from "../services/AssetService";
 import {shopHandler} from "../handlers/ShopHandler";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import HeroBuyEvent from "../events/HeroBuyEvent";
+import {gameTickHandler} from "../handlers/GameTickHandler";
 
 export default class Hero extends Model {
 
@@ -110,6 +111,10 @@ export default class Hero extends Model {
 
         window.addEventListener("moneyReceive", (event: MoneyReceivedEvent) => this.handleMoneyReceive(event));
         window.addEventListener('heroBuy', (event: HeroBuyEvent) => this.heroBuyLevel(event));
+
+        gameTickHandler.onTick(()=>{
+            this.updateUI()
+        })
 
 
         return this;

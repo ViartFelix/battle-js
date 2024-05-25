@@ -1,6 +1,7 @@
 import {socketService} from "./services/SocketService";
 import {shopHandler} from "./handlers/ShopHandler";
 import {levelsHandler} from "./handlers/LevelsHandler";
+import {gameTickHandler} from "./handlers/GameTickHandler";
 
 export default class main {
     /**
@@ -12,6 +13,7 @@ export default class main {
         socketService.init()
         shopHandler.init()
         levelsHandler.init()
+        gameTickHandler.init()
     }
 
     /**

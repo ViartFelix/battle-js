@@ -9,6 +9,7 @@ import MonsterDamageEvent from "../events/MonsterDamageEvent";
 import MonsterKillEvent from "../events/MonsterKillEvent";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import LevelReq from "../reqRes/LevelReq";
+import {gameTickHandler} from "./GameTickHandler";
 
 class LevelsHandler
 {
@@ -27,7 +28,7 @@ class LevelsHandler
      */
     public init(): void
     {
-        this._currentLevel = new Level(1)
+        this._currentLevel = new Level(10)
         this._pb = this._currentLevel
         this.bindEvents();
         this.monsterRequest();
@@ -93,6 +94,10 @@ class LevelsHandler
 
         window.addEventListener('monsterKill', (event: MonsterKillEvent) => {
             this.handleMonsterKillEvent(event)
+        })
+
+        gameTickHandler.onTick(() => {
+            this.updateDisplays()
         })
 
         //handles the response of the server for a level information request
@@ -176,9 +181,14 @@ class LevelsHandler
      */
     private updateDisplays(): void
     {
-        //updates the monster display
-        this._monster.updateMonster(true);
-        this._currentLevel.updateLevelUI();
+        //updates & level the monster display
+        if(this._monster!= undefined) {
+            this._monster.updateMonster(true);
+        }
+
+        if(this._currentLevel!= undefined) {
+            this._currentLevel.updateLevelUI();
+        }
     }
 
     get monster(): Monster { return this._monster; }
