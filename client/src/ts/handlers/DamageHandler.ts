@@ -32,7 +32,7 @@ class DamageHandler implements  HandlersContract
         gameTickHandler.onTick((event: OnTickEvent)=>{
             this.handleTick(event)
             this._nbrTick++
-        }, 1)
+        }, 10)
 
         window.addEventListener('heroBuy', (event: HeroBuyEvent)=>{
             this.handleHeroBuy(event)
@@ -48,11 +48,7 @@ class DamageHandler implements  HandlersContract
     {
         const damage = this._currentDamage.getNumberMap()
 
-        if(damage.length > 2) {
-            const targetEvent = new MonsterDamageEvent(new Exponent(damage).parse())
-            window.dispatchEvent(targetEvent)
-
-        } else if(this._nbrTick % 100 === 0) {
+        if(this._nbrTick % 10 === 0) {
             const targetEvent = new MonsterDamageEvent(new Exponent(damage).parse())
             window.dispatchEvent(targetEvent)
         }
@@ -67,20 +63,13 @@ class DamageHandler implements  HandlersContract
      */
     private handleHeroBuy(event: HeroBuyEvent)
     {
-        //if the hero is not in the map, we add it
-        if(!this._heroesDPS.has(event.id)) {
-            this._heroesDPS.set(event.id, event.addDPS)
-        } else {
-            //get hero DPS
-            const currentDPS = this._heroesDPS.get(event.id)
-            //add the new DPS to the current one
-            const final = currentDPS.add(event.addDPS)
-            this._heroesDPS.set(event.id, final)
-        }
+        this._heroesDPS.set(event.id, event.newDamage)
+
+        this._currentDamage = new Exponent(0).parse()
 
         //and in any case, we add all numbers together to have a final DPS
         for(const [key, value] of this._heroesDPS) {
-            this._currentDamage = this._currentDamage.add(value)
+            this._currentDamage.add(value)
         }
     }
 
