@@ -131,7 +131,7 @@ export default class Hero extends Model {
         //current money
         const currentMoney: Exponent = shopHandler.money;
         //if can be bought
-        if(currentMoney.canSubstract(this.price)) {
+        if(currentMoney.canSubtract(this.price)) {
             //emit global event that a hero is bought
             const event = new HeroBuyEvent(this._id, this._price, this.getNextDmgLvl());
             window.dispatchEvent(event);
@@ -194,11 +194,11 @@ export default class Hero extends Model {
 
             if(this._id === 2) {
                 //canSubtrack est pété
-                currentMoney.canSubstract(this._price, true)
+                currentMoney.canSubtract(this._price, true)
             }
 
             //if the hero is purchasable, then we mark it as "seen": we can display the hero constantly
-            if(currentMoney.canSubstract(this._price)) {
+            if(currentMoney.canSubtract(this._price)) {
                 this._currentShopElement.classList.remove("locked");
             }
 

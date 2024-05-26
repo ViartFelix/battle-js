@@ -197,7 +197,7 @@ export default class Exponent extends PrecisionContract
      * @param a
      * @private
      */
-    public canSubstract(numberTwo: Exponent,a: boolean|undefined = false ): boolean
+    public canSubtract(numberTwo: Exponent, a: boolean|undefined = false ): boolean
     {
         //if the length of the second number is superior to the current number
         if(numberTwo._exponent > this._exponent) {
@@ -239,7 +239,7 @@ export default class Exponent extends PrecisionContract
      */
     public subtract(numberTwo: Exponent): this
     {
-        if(this.canSubstract(numberTwo)) {
+        if(this.canSubtract(numberTwo)) {
             const final: number[] = [];
 
             const nOne = this.getNumberMap().reverse();
