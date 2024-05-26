@@ -1,0 +1,19 @@
+@mixin applyBtn()
+{
+    overflow: hidden;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease-in-out;
+
+    &:not(.disabled) {
+        &:hover {
+            filter: brightness(2);
+        }
+    }
+
+    &.disabled {
+        cursor: unset !important;
+        opacity: 0.9;
+    }
+}

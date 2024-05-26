@@ -7,7 +7,7 @@
 section#main {
     height: 100%;
     width: 100%;
-    background: #000;
+    background: $main;
     display: grid;
     grid-template-columns: 1fr 3fr;
 
@@ -49,4 +49,8 @@ section#main {
 body {
     display: grid;
     grid-template-rows: 70px calc(100vh - 70px);
+}
+
+[data-btn] {
+    @include applyBtn();
 }

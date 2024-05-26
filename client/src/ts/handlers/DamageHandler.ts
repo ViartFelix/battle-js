@@ -53,7 +53,7 @@ class DamageHandler implements  HandlersContract
             window.dispatchEvent(targetEvent)
         }
 
-       this.updateUI()
+        this.updateUI()
     }
 
     /**

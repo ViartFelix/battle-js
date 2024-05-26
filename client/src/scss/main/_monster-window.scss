@@ -2,7 +2,10 @@
 
 @mixin applyMonsterWindow() {
     height: 100%;
-    background: blue;
+    background-image: url(/public/img/nature-BG.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
     div.monster-container {
         width: 75%;
@@ -37,9 +40,9 @@
             row-gap: 0.5rem;
 
             [data-display='monster-bar'] {
-                border: 0.25rem solid #000 !important;
-                background: #fff !important;
-                color: #000 !important;
+                border: 0.25rem solid $main !important;
+                background: $white !important;
+                color: $main !important;
 
                 padding: 0.5rem 0;
             }
@@ -47,7 +50,7 @@
             .info-bar {
                 border-radius: 999px !important;
                 width: 100%;
-                border: 1px solid #000;
+                //border: 1px solid $main;
                 overflow: hidden;
                 position: relative;
                 z-index: 2;

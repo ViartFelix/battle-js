@@ -1,15 +1,20 @@
 @import "../_vars";
+@import "../_funcs";
 
 @mixin applyNavigationBar() {
     width: 100%;
-    background: #0f0;
+    background: $main;
     display: grid;
     grid-template-columns: minmax(2rem, 1fr) 3fr minmax(2rem, 1fr);
     justify-content: space-between;
     border-bottom: $border;
 
     [data-btn] {
+        background-color: $green;
+
         &.disabled {
+            background-color: $black;
+
             iconify-icon {
                 opacity: 0 !important;
             }

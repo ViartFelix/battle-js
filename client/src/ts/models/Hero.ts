@@ -104,7 +104,7 @@ export default class Hero extends Model {
     public bindEvents(): this
     {
         //when the button for the level Up button is clicked
-        this._shopTemplate.querySelector("[data-button='lvl-up']")
+        this._shopTemplate.querySelector("[data-btn='lvl-up']")
            .addEventListener('click', (event: Event) => {
                this.handleHeroBuyAttempt(event)
            })
@@ -137,7 +137,7 @@ export default class Hero extends Model {
             window.dispatchEvent(event);
         } else {
             //TODO: Change this to custom snackBar
-            alert("You don't have enough money to buy this hero!")
+            //alert("You don't have enough money to buy this hero!")
         }
 
         this.updateUI();
@@ -192,14 +192,12 @@ export default class Hero extends Model {
         if(this._currentShopElement) {
             const currentMoney: Exponent = (shopHandler.money ?? new Exponent(0).parse());
 
-            if(this._id === 2) {
-                //canSubtrack est pété
-                currentMoney.canSubtract(this._price, true)
-            }
-
             //if the hero is purchasable, then we mark it as "seen": we can display the hero constantly
             if(currentMoney.canSubtract(this._price)) {
                 this._currentShopElement.classList.remove("locked");
+                this._currentShopElement.querySelector('[data-btn="lvl-up"]').classList.remove('disabled')
+            } else {
+                this._currentShopElement.querySelector('[data-btn="lvl-up"]').classList.add('disabled')
             }
 
             //if the hero is not bought, then we display the base damage. If the hero has a level, we display the current hero damage

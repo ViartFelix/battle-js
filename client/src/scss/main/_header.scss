@@ -3,7 +3,9 @@
 header {
     width: 100%;
     padding: 0.5rem;
-    background: #ee842b;
+    background-size: cover;
+    background: url(/public/img/hero.jpg) no-repeat top;
+
     border-bottom: $border;
 
     div.header-wrapper {
@@ -13,7 +15,7 @@ header {
         align-items: center;
         column-gap: 5rem;
 
-        & > p {
+        & > * {
             display: flex;
             align-items: center;
 

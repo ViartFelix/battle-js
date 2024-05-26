@@ -4,7 +4,7 @@
 
     height: 100%;
     border-right: $border;
-    background: #f00;
+    background: $main;
     padding: 1rem 0.5rem;
     overflow: hidden scroll;
 
@@ -23,13 +23,11 @@
 }
 
 @mixin shopItem() {
-    $gap: 0.1rem;
-
     border-radius: 0.5rem;
-    border: $gap solid black;
+    border: 0.1rem solid $black;
     overflow: hidden;
     height: fit-content;
-    background-color: aqua;
+    background-color: $black;
     display: grid;
     grid-template-columns: 1fr 3rem;
     align-items: center;
@@ -57,13 +55,13 @@
             display: flex;
             flex-direction: column;
 
-            [data-display='class-name'] {
-                margin-right: 0.5rem;
-            }
-
-            [data-display='class-level'] {
+            .lv {
                 font-weight: 200;
                 font-size: 0.75rem;
+            }
+
+            [data-display='class-name'] {
+                margin-right: 0.5rem;
             }
 
             div.class-stats {
@@ -81,6 +79,16 @@
         button {
             width: 100%;
             height: 100%;
+            background-color: $green;
+            color: $white;
+
+            &.disabled {
+                background-color: $black !important;
+
+                iconify-icon {
+                    opacity: 0 !important;
+                }
+            }
         }
     }
 

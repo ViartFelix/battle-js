@@ -19,15 +19,24 @@
         <div class="header-wrapper">
             <!--gold-->
             <p>
-                <iconify-icon icon="bitcoin-icons:coins-filled"></iconify-icon>
-                <span data-display="gold">0</span>
+                <iconify-icon class="white" icon="bitcoin-icons:coins-filled"></iconify-icon>
+                <span class="white" data-display="gold">0</span>
             </p>
 
             <!--dps-->
             <p>
-                <iconify-icon icon="ri:sword-fill"></iconify-icon>
-                <span data-display="dps">0</span>
+                <iconify-icon class="white" icon="ri:sword-fill"></iconify-icon>
+                <span class="white" data-display="dps">0</span>
             </p>
+
+            <div class="remain fc">
+                <iconify-icon class="white" icon="mdi:emoticon-devil"></iconify-icon>
+
+                <span class="numbers white">
+                    <span class="white" data-display="remain-current">0</span> / <span class="white" data-display="remain-total">10</span>
+                </span>
+
+            </div>
         </div>
     </header>
 
@@ -37,32 +46,23 @@
             <div class="shop-container">
 
             </div>
-
         </div>
 
         <!--main game window-->
         <main>
             <nav class="level-change fc">
                 <button type="button" class="disabled fcc" data-display="previous" data-btn="level-change">
-                    <iconify-icon icon="mdi:chevron-left"></iconify-icon>
+                    <iconify-icon class="white" icon="mdi:chevron-left"></iconify-icon>
                 </button>
 
                 <div class="level-monsters fcc">
-                    <p class="level fc">
-                        Level <span data-display="level">1</span>
+                    <p class="level fc white">
+                        Level <span class="white" data-display="level">1</span>
                     </p>
-
-                    <div class="remain fc">
-                        <p class="numbers">
-                            <span data-display="remain-current">0</span> / <span data-display="remain-total">10</span>
-                        </p>
-
-                        <iconify-icon icon="mdi:emoticon-devil"></iconify-icon>
-                    </div>
                 </div>
 
                 <button type="button" class="disabled fcc" data-display="next" data-btn="level-change">
-                    <iconify-icon icon="mdi:chevron-right"></iconify-icon>
+                    <iconify-icon class="white" icon="mdi:chevron-right"></iconify-icon>
                 </button>
             </nav>
 
@@ -73,19 +73,19 @@
                     </div>
 
                     <div class="hp-time">
-                        <p class="info-bar fcc" data-display="monster-bar">
-                            <span data-display="monster-name"></span>
+                        <p class="info-bar fcc bg-white" data-display="monster-bar">
+                            <span class="black" data-display="monster-name"></span>
                         </p>
-                        <p class="info-bar fcc" data-display="hp-bar">
-                            <span data-display="current-hp">0</span>
-                            <iconify-icon icon="mdi:heart"></iconify-icon>
-                            <span style="background: rgba(255, 0, 3);" class="displayer" data-display="hp-bar-graph"></span>
+                        <p class="info-bar fcc white" data-display="hp-bar">
+                            <span class="white" data-display="current-hp">0</span>
+                            <iconify-icon class="white" icon="mdi:heart"></iconify-icon>
+                            <span class="displayer bg-red white" data-display="hp-bar-graph"></span>
                         </p>
 
-                        <p class="info-bar fcc hidden" data-display="timer-bar">
-                            <span data-display="current-time"></span>
-                            <iconify-icon icon="material-symbols:timer"></iconify-icon>
-                            <span style="background-color: #eb7aff;" class="displayer" data-display="hp-timer-graph"></span>
+                        <p class="info-bar fcc hidden white" data-display="timer-bar">
+                            <span class="white" data-display="current-time"></span>
+                            <iconify-icon class="white" icon="material-symbols:timer"></iconify-icon>
+                            <span style="background-color: #ab5dbb;" class="displayer" data-display="hp-timer-graph"></span>
                         </p>
                     </div>
                 </div>
@@ -101,18 +101,18 @@
 
                     <div class="class-info">
                         <p class="class-name-level">
-                            <span data-display="class-name"></span>
-                            <span data-display="class-level"></span>
+                            <span class="white" data-display="class-name"></span>
+                            <span class="white lv">Lv. <span class="white" data-display="class-level"></span></span>
                         </p>
 
                         <div class="class-stats">
                             <p class="class-gold">
-                                <iconify-icon icon="bitcoin-icons:coins-filled"></iconify-icon>
-                                <span data-display="class-gold"></span>
+                                <iconify-icon class="white" icon="bitcoin-icons:coins-filled"></iconify-icon>
+                                <span class="white" data-display="class-gold"></span>
                             </p>
                             <p class="class-dps">
-                                <iconify-icon icon="ri:sword-fill"></iconify-icon>
-                                <span data-display="class-dps"></span>
+                                <iconify-icon class="white" icon="ri:sword-fill"></iconify-icon>
+                                <span class="white" data-display="class-dps"></span>
                             </p>
                         </div>
 
@@ -121,7 +121,7 @@
 
 
                 <div class="class-btns">
-                    <button data-button="lvl-up">
+                    <button data-btn="lvl-up">
                         <iconify-icon icon="mdi:chevron-up"></iconify-icon>
                     </button>
                 </div>
