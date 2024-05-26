@@ -4,11 +4,12 @@ import Exponent from "./Exponent";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import {displayService} from "../services/DisplayService";
 import HeroBuyEvent from "../events/HeroBuyEvent";
+import HandlersContract from "../contracts/HandlersContract";
+import {gameTickHandler} from "./GameTickHandler";
 
 
-class ShopHandler {
-
-
+class ShopHandler implements HandlersContract
+{
     private readonly _container: HTMLElement;
     private readonly _money: Exponent;
 
@@ -16,7 +17,6 @@ class ShopHandler {
         //binds container
         this._container = document.querySelector("[data-el='shop'] div.shop-container")
         this._money = new Exponent("0").parse();
-        this.updateDisplays()
     }
 
     /**
@@ -56,16 +56,18 @@ class ShopHandler {
      */
     private bindEvents(): void
     {
+        gameTickHandler.onTick(()=>{
+            this.updateDisplays()
+        })
+
         //custom money receive event
         window.addEventListener('moneyReceive', (event: MoneyReceivedEvent) => {
             const amount = event.amount
             this._money.add(amount)
-            this.updateDisplays()
         })
 
         window.addEventListener('heroBuy', (event: HeroBuyEvent) => {
             this._money.subtract(event.price)
-            this.updateDisplays()
         })
     }
 

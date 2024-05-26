@@ -10,8 +10,9 @@ import MonsterKillEvent from "../events/MonsterKillEvent";
 import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import LevelReq from "../reqRes/LevelReq";
 import {gameTickHandler} from "./GameTickHandler";
+import HandlersContract from "../contracts/HandlersContract";
 
-class LevelsHandler
+class LevelsHandler implements HandlersContract
 {
     /** Current level */
     private _currentLevel: Level;

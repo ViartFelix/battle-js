@@ -12,3 +12,5 @@ export default class MonsterDamageEvent extends Event {
 
     get damage(): Exponent { return this._damage; }
 }
+
+

@@ -182,11 +182,22 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
+     * Check if two arrays are equal
+     * @param numberTwo
+     */
+    public areEquals(numberTwo: Exponent): boolean
+    {
+        //if the 2 numbers are addable
+        return JSON.stringify(this.getNumberMap()) === JSON.stringify(numberTwo.getNumberMap())
+    }
+
+    /**
      * Determines if the given number can be subtracted from the current number
      * @param numberTwo
+     * @param a
      * @private
      */
-    public canSubstract(numberTwo: Exponent): boolean
+    public canSubstract(numberTwo: Exponent,a: boolean|undefined = false ): boolean
     {
         //if the length of the second number is superior to the current number
         if(numberTwo._exponent > this._exponent) {
@@ -198,38 +209,27 @@ export default class Exponent extends PrecisionContract
             //then that means we can subtract the current number from the second number
             return true;
         }
+        //if the two numbers are equal
+        else if(this.areEquals(numberTwo)) {
+            return true;
+        }
+        //else that means we have to compare each digit
         else {
-            let result: boolean = false;
+            //numbers maps
+            const nOne = this.getNumberMap();
+            const nTwo = numberTwo.getNumberMap();
 
-            /** the upper number in the subtraction */
-            const upper: number[] = this.getNumberMap().reverse();
-            /** the lower number in the subtraction */
-            const lower: number[] = numberTwo.getNumberMap().reverse();
-            //max length
-            const max: number = Math.max(upper.length, lower.length);
-
-            //basically what we're going to do is loop in all numbers
-            for(let i: number = max - 1; i >= 0; i--) {
-                //the digit on top
-                const upperDigit: number = upper.at(i) ?? 0;
-                //same, but the bottom digit
-                const lowerDigit: number = lower.at(i) ?? 0;
-                /** if it's the last turn */
-                const lastLoop = i === 0;
-                //then check if the current upper number is bigger than the current lower number
-                if(upperDigit > lowerDigit) {
-                    //if true, then we can stop and return true.
-                    result = true
+            //loop into the digits
+            for (let i = 0; i < nOne.length; i++) {
+                //if the digits are not equal
+                if (nOne[i] !== nTwo[i]) {
+                    //then we check if the digit One is superior to the digit Two
+                    //if yes, we can continue, if no, then the loop will stop and false will be returned.
+                    return nOne[i] > nTwo[i];
                 }
-                //else if it's the last loop and the upper number is equals to the lower number
-                else if(lastLoop && upperDigit === lowerDigit && result === false) {
-                    //then that means the 2 numbers are equal, and thus can be subtracted
-                    result = true;
-                }
-                //else we continue in the loop, because tha means
             }
-            //and we return the result, because only when the upper number is bigger or equals than the lower number is true
-            return result;
+
+            return true;
         }
     }
 

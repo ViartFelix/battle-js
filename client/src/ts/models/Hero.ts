@@ -114,7 +114,7 @@ export default class Hero extends Model {
 
         gameTickHandler.onTick(()=>{
             this.updateUI()
-        })
+        }, 20)
 
 
         return this;
@@ -133,7 +133,7 @@ export default class Hero extends Model {
         //if can be bought
         if(currentMoney.canSubstract(this.price)) {
             //emit global event that a hero is bought
-            const event = new HeroBuyEvent(this._id, this._price);
+            const event = new HeroBuyEvent(this._id, this._price, this.getNextDmgLvl());
             window.dispatchEvent(event);
         } else {
             //TODO: Change this to custom snackBar
@@ -192,8 +192,13 @@ export default class Hero extends Model {
         if(this._currentShopElement) {
             const currentMoney: Exponent = (shopHandler.money ?? new Exponent(0).parse());
 
+            if(this._id === 2) {
+                //canSubtrack est pété
+                currentMoney.canSubstract(this._price, true)
+            }
+
             //if the hero is purchasable, then we mark it as "seen": we can display the hero constantly
-            if(currentMoney.canSubstract(this.price)) {
+            if(currentMoney.canSubstract(this._price)) {
                 this._currentShopElement.classList.remove("locked");
             }
 

@@ -5,7 +5,7 @@ export default abstract class PrecisionContract
     /** The precision number as a number */
     private readonly number: number = Math.pow(10, this.precision);
     /** Number of decimals in which the number is displayed as a raw number */
-    private readonly displayThreshold: number = 5;
+    private readonly displayThreshold: number = 2;
 
     protected constructor() {}
 
