@@ -192,6 +192,48 @@ export default class Exponent extends PrecisionContract
     }
 
     /**
+     * Divides two numbers.
+     * Returns a numberMap.
+     * @param _denominator
+     */
+    public divide(_denominator: Exponent): number
+    {
+        /** final array that will be returned */
+        const final: number[] = [];
+        /** Remainder after each loop */
+        let remainderMap: number[] = [];
+        //numerator as detached instances adn number maps from this class
+        const numeratorMap = this.getNumberMap();
+        const numerator: Exponent = new Exponent(numeratorMap).parse();
+        //same in the denominator
+        const denominatorMap = _denominator.getNumberMap();
+        const denominator: Exponent = new Exponent(denominatorMap).parse();
+        //loop in the numerator
+        for (let i = 0; i < numeratorMap.length; i++) {
+            remainderMap.push(numeratorMap[i]);
+            /** Quotient */
+            let quotientDigit = 0;
+            /** What is reminded from the operations */
+            let remainder = new Exponent(remainderMap).parse();
+            //if the remainder is superior or equals to the denominator
+            while (remainder.canSubtract(denominator))
+            {
+                //we subtract and add quotient
+                remainder.subtract(denominator);
+                quotientDigit++;
+            }
+            //we push the current result to the final array
+            final.push(quotientDigit);
+        }
+        //deleting the useless zeroes in front
+        while (final.length > 1 && final[0] === 0) {
+            final.shift();
+        }
+        //and we return the final number
+        return final[final.length - 1];
+    }
+
+    /**
      * Determines if the given number can be subtracted from the current number
      * @param numberTwo
      * @param a
@@ -299,10 +341,13 @@ export default class Exponent extends PrecisionContract
         }
         //multiplication by 1 or more
         else {
+            const ogMap = this.getNumberMap();
+            const og = new Exponent(ogMap).parse();
+
             //we iterate in the number of times to multiply the number
             for(let i = 0; i < times - 1; i++) {
                 //and we add the number to the result
-                this.add(this);
+                this.add(og);
             }
         }
 

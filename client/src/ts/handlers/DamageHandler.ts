@@ -57,9 +57,7 @@ class DamageHandler implements  HandlersContract
             window.dispatchEvent(targetEvent)
         }
 
-
-        displayService.updateDisplay('dps', this._currentDamage.toString())
-
+       this.updateUI()
     }
 
     /**
@@ -84,6 +82,39 @@ class DamageHandler implements  HandlersContract
         for(const [key, value] of this._heroesDPS) {
             this._currentDamage = this._currentDamage.add(value)
         }
+    }
+
+    /**
+     * Updates the UI
+     * @private
+     */
+    private updateUI()
+    {
+        if(levelsHandler.monster !== undefined) {
+            //current HP
+            const hpMap = levelsHandler.monster.enemyHp.getNumberMap()
+            const hp = new Exponent(hpMap).parse()
+            //original HP
+            const ogHpMap = levelsHandler.monster.originalHp.getNumberMap()
+            const ogHp = new Exponent(ogHpMap).parse()
+            //percentage of remaining HP
+            const percent: number = hp.multiply(100).divide(ogHp)
+            displayService.getDisplay('hp-bar-graph').style.width = `${percent}%`
+
+            if(levelsHandler.monster.isBoss) {
+                //date time limit
+                const limit: Date = levelsHandler.monster.timeLimit
+                //divided by 1000 because limit - now returns milliseconds
+                const remainingTime: number = (limit.getTime() - new Date().getTime()) / 1000
+                /** Percentage of time remaining */
+                const percentTime: number = (remainingTime / levelsHandler.monster.secondsForBoss) * 100
+
+                displayService.getDisplay('hp-timer-graph').style.width = `${percentTime}%`
+            }
+        }
+
+
+        displayService.updateDisplay('dps', this._currentDamage.toString())
     }
 
 

@@ -10,3 +10,8 @@ import Exponent from "./handlers/Exponent";
 document.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
 })
+
+const a = new Exponent(50).parse()
+const b = new Exponent(6).parse()
+
+console.log(a.divide(b))
