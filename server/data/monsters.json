@@ -1580,6 +1580,11 @@
         "id": 417
     },
     {
+        "name": "Fallen Ashen Phoenix",
+        "tier": 9,
+        "id": 418
+    },
+    {
         "name": "Great Phoenix Pledge",
         "tier": 9,
         "id": 419
@@ -1663,6 +1668,11 @@
         "name": "Finn",
         "tier": 4,
         "id": 438
+    },
+    {
+        "name": "Amadan",
+        "tier": 8,
+        "id": 439
     },
     {
         "name": "Beag",
