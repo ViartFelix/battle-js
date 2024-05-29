@@ -3,6 +3,8 @@ import {shopHandler} from "./handlers/ShopHandler";
 import {levelsHandler} from "./handlers/LevelsHandler";
 import {gameTickHandler} from "./handlers/GameTickHandler";
 import {damageHandler} from "./handlers/DamageHandler";
+import {modalHandler} from "./handlers/ModalHandler";
+import {settingsHandler} from "./handlers/SettingsHandler";
 
 export default class main {
     /**
@@ -16,6 +18,8 @@ export default class main {
         levelsHandler.init()
         gameTickHandler.init()
         damageHandler.init()
+        modalHandler.init()
+        settingsHandler.init()
     }
 
     /**

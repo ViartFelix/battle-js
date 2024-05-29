@@ -29,7 +29,7 @@ class LevelsHandler implements HandlersContract
      */
     public init(): void
     {
-        this._currentLevel = new Level(1)
+        this._currentLevel = new Level(100)
         this._pb = this._currentLevel
         this.bindEvents();
         this.monsterRequest();

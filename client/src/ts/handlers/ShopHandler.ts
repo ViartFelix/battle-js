@@ -16,7 +16,7 @@ class ShopHandler implements HandlersContract
     constructor() {
         //binds container
         this._container = document.querySelector("[data-el='shop'] div.shop-container")
-        this._money = new Exponent("0").parse();
+        this._money = new Exponent("6e150").parse();
     }
 
     /**

@@ -17,27 +17,42 @@
 <body>
     <header>
         <div class="header-wrapper">
-            <!--gold-->
-            <p>
-                <iconify-icon class="white" icon="bitcoin-icons:coins-filled"></iconify-icon>
-                <span class="white" data-display="gold">0</span>
-            </p>
+            <div class="infos-left">
+                <!--gold-->
+                <p>
+                    <iconify-icon class="white" icon="bitcoin-icons:coins-filled"></iconify-icon>
+                    <span class="white" data-display="gold">0</span>
+                </p>
 
-            <!--dps-->
-            <p>
-                <iconify-icon class="white" icon="ri:sword-fill"></iconify-icon>
-                <span class="white" data-display="dps">0</span>
-            </p>
+                <!--dps-->
+                <p>
+                    <iconify-icon class="white" icon="ri:sword-fill"></iconify-icon>
+                    <span class="white" data-display="dps">0</span>
+                </p>
 
-            <div class="remain fc">
-                <iconify-icon class="white" icon="mdi:emoticon-devil"></iconify-icon>
+                <div class="remain fc">
+                    <iconify-icon class="white" icon="mdi:emoticon-devil"></iconify-icon>
 
-                <span class="numbers white">
-                    <span class="white" data-display="remain-current">0</span> / <span class="white" data-display="remain-total">10</span>
-                </span>
+                    <span class="numbers white">
+                        <span class="white" data-display="remain-current">0</span> / <span class="white" data-display="remain-total">10</span>
+                    </span>
+                </div>
+            </div>
 
+            <div class="infos-right">
+                <button class="white" data-btn="settings">
+                    <iconify-icon class="white" icon="material-symbols:settings"></iconify-icon>
+                    Settings
+                </button>
+
+                <button class="white" data-btn="sounds">
+                    <iconify-icon class="white" icon="mdi:music"></iconify-icon>
+                    Sounds
+                </button>
             </div>
         </div>
+
+
     </header>
 
     <section id="main">
@@ -127,6 +142,56 @@
                 </div>
             </div>
         </template>
+    </section>
+
+    <section style="display: contents !important;" id="modals">
+        <!--Music modal-->
+        <article class="modal" data-modal="music">
+            <div class="modal-container music-grid bg-white">
+                <div class="sfx-part">
+                    <label class="input-desc">
+                        <span>SFX</span>
+                        <!--Border bot ici-->
+                        <input min="0" max="100" value="50" type="range" data-modal-el="input-sfx">
+                    </label>
+
+                    <!-- border-left au prochain élément-->
+                    <p data-display="sfx-volume">50</p>
+                </div>
+
+                <div class="music-part">
+                    <label class="input-desc">
+                        <span>Music</span>
+                        <!--Border bot ici-->
+                        <input min="0" max="100" value="50" type="range" data-modal-el="input-music">
+                    </label>
+
+                    <!-- border-left au prochain élément-->
+                    <p data-display="music-volume">50</p>
+                </div>
+
+
+
+                <div class="buttons-part fcc">
+                    <button class="bg-green white" data-modal-btn="close" data-btn>
+                        <iconify-icon class="white" icon="material-symbols:close"></iconify-icon>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <article class="modal" data-modal="startup">
+            <div class="modal-container start-bg bg-white">
+                <div class="buttons-part">
+                    <button class="bg-green white" data-modal-el="start-button" data-modal-btn="close">
+                        <iconify-icon class="white" icon="mdi:play"></iconify-icon>
+                        Start the app
+                    </button>
+                </div>
+            </div>
+        </article>
+
     </section>
 </body>
 
