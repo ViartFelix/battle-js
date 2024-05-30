@@ -40,10 +40,12 @@
             </div>
 
             <div class="infos-right">
+                <!-- For later ! :)
                 <button class="white" data-btn="settings">
                     <iconify-icon class="white" icon="material-symbols:settings"></iconify-icon>
                     Settings
                 </button>
+                -->
 
                 <button class="white" data-btn="sounds">
                     <iconify-icon class="white" icon="mdi:music"></iconify-icon>
@@ -148,6 +150,7 @@
         <!--Music modal-->
         <article class="modal" data-modal="music">
             <div class="modal-container music-grid bg-white">
+
                 <div class="sfx-part">
                     <label class="input-desc">
                         <span>SFX</span>
@@ -170,7 +173,23 @@
                     <p data-display="music-volume">50</p>
                 </div>
 
+                <div class="current-music">
+                    <div class="music-display">
+                        <div class="label">
+                            <iconify-icon class="black" icon="cryptocurrency:music"></iconify-icon>
+                            Currently playing :
+                        </div>
 
+                        <p class="curr-music black" data-display="current-music"></p>
+                    </div>
+
+                    <div class="music-changer">
+                        <button data-btn="random-music">
+                            <iconify-icon class="white" icon="mdi:shuffle"></iconify-icon>
+                        </button>
+                    </div>
+
+                </div>
 
                 <div class="buttons-part fcc">
                     <button class="bg-green white" data-modal-btn="close" data-btn>

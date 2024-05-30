@@ -3,6 +3,7 @@ import { socketService } from "../services/SocketService"
 import { classService } from "../services/ClassService";
 import {levelService} from "../services/LevelService";
 import Enemy from "../models/Enemy";
+import {fsService} from "../services/FsService";
 
 export default class ClientHandler {
     readonly socket: Socket;
@@ -41,6 +42,10 @@ export default class ClientHandler {
         this.socket.on('levelInfosRequest', (data: any)=> {
             this.levelInfosRequest(data)
         })
+
+        this.socket.on("musicsRequest", (data: any)=> {
+            this.handleMusicsRequest(data)
+        })
     }
 
     private levelInfosRequest(data: any): void
@@ -58,6 +63,18 @@ export default class ClientHandler {
         })
     }
 
+    /**
+     * Handles the request for music files
+     * @param data
+     * @private
+     */
+    private handleMusicsRequest(data: any): void
+    {
+        const file: Buffer = fsService.getDataFile('musics.json');
+        const musics = JSON.parse(file.toString());
+
+        this.socket.emit('musicsResponse', musics)
+    }
 
 
     public getId(): string

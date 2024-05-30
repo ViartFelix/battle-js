@@ -1,5 +1,6 @@
 import HandlersContract from "../contracts/HandlersContract";
 import {soundHandler} from "./SoundHandler";
+import {displayService} from "../services/DisplayService";
 
 class ModalHandler implements HandlersContract {
     /** container of all modals (parent) */
@@ -52,8 +53,35 @@ class ModalHandler implements HandlersContract {
         this._container.querySelector("[data-modal='startup'] [data-modal-el='start-button']")
             .addEventListener('click', (event: Event) => {
                 //no need to close, because we attributed the button to close as the start button.
-                soundHandler.init()
+                this.handleAppStart(event)
             })
+
+        this._container.querySelector("[data-modal='music'] [data-btn='random-music']")
+            .addEventListener('click', (event: Event) => {
+                soundHandler.declareMusicChange()
+            })
+    }
+
+    /**
+     * Handles the starting of the app
+     * @private
+     */
+    private handleAppStart(event: Event): void
+    {
+        event.preventDefault();
+        soundHandler.init()
+
+        //if the player already has volume set previously, set the volume to this value
+        const previousVolume: number|undefined = (localStorage.getItem('musicVolume') as unknown as number) ?? undefined
+
+        if(previousVolume !== undefined) {
+            soundHandler.setMusicVolume(previousVolume);
+            //text value of volume
+            displayService.updateDisplay('music-volume', previousVolume);
+            //slider
+            (document.querySelector("[data-modal-el='input-music']") as HTMLInputElement)
+                .value = previousVolume.toString()
+        }
     }
 
     /**
@@ -84,6 +112,9 @@ class ModalHandler implements HandlersContract {
 
         this._currentModal.querySelector("[data-display='music-volume']")
             .textContent = value.toString();
+
+        //saves the gain to localstorage
+        localStorage.setItem("musicVolume", value.toString())
 
         soundHandler.setMusicVolume(value);
     }
