@@ -11,6 +11,7 @@ import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import LevelReq from "../reqRes/LevelReq";
 import {gameTickHandler} from "./GameTickHandler";
 import HandlersContract from "../contracts/HandlersContract";
+import {userDataHandler} from "./userDataHandler";
 
 class LevelsHandler implements HandlersContract
 {
@@ -54,6 +55,7 @@ class LevelsHandler implements HandlersContract
         const req = {
             level: this._currentLevel.level,
             hp: hp,
+            pb: this._pb.level,
         } as LevelReq
 
         socketService.emit('levelInfosRequest', req)
@@ -95,6 +97,7 @@ class LevelsHandler implements HandlersContract
 
         window.addEventListener('monsterKill', (event: MonsterKillEvent) => {
             this.handleMonsterKillEvent(event)
+            userDataHandler.sendToServer()
         })
 
         gameTickHandler.onTick(() => {

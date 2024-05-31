@@ -124,13 +124,30 @@ section#modals {
     }
 
     [data-modal="startup"] {
+        .modal-container {
+            display: grid;
+            row-gap: 1.5rem;
 
-        button {
-            font-size: 2rem !important;
+            label {
+                display: grid;
 
-            iconify-icon {
-                margin-right: 0.5rem;
+                input {
+                    box-sizing: border-box;
+                    border: 1px solid $black;
+                    border-radius: 999px;
+                    padding: 0.25rem 1rem;
+                }
+            }
+
+            button {
+                font-size: 2rem !important;
+                padding: 0 1.25rem 0 0.75rem;
+
+                iconify-icon {
+                    margin-right: 0.5rem;
+                }
             }
         }
+
     }
 }

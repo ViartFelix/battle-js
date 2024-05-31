@@ -27,6 +27,17 @@ class FsService {
     {
         return fs.readFileSync(this.base+"/data/"+name)
     }
+
+    /**
+     * Override files
+     * @param name
+     * @param data
+     */
+    public overrideFile(name: string, data: any): void
+    {
+        const dt = JSON.stringify(data);
+        fs.writeFileSync(this.base+"/data/"+name, dt)
+    }
 }
 
 export const fsService: FsService = new FsService()

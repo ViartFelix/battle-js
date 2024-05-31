@@ -10,8 +10,11 @@ import {gameTickHandler} from "./GameTickHandler";
 
 class ShopHandler implements HandlersContract
 {
+
     private readonly _container: HTMLElement;
     private readonly _money: Exponent;
+
+    private readonly _heroes: Array<Hero> = [];
 
     constructor() {
         //binds container
@@ -39,6 +42,8 @@ class ShopHandler implements HandlersContract
             for(const hero of val) {
                 //new hero
                 const clean = new Hero(hero.id, hero.name, hero.tier, hero.price, hero.dmg)
+
+                this._heroes.push(clean);
 
                 //tl;dr: cloning template and adding it to the shop
                 clean
@@ -83,6 +88,7 @@ class ShopHandler implements HandlersContract
 
     get container(): HTMLElement { return this._container; }
     get money(): Exponent { return this._money; }
+    get heroes(): Array<Hero> { return this._heroes; }
 }
 
 export const shopHandler = new ShopHandler();

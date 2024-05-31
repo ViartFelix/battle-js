@@ -1,6 +1,8 @@
 import HandlersContract from "../contracts/HandlersContract";
 import {soundHandler} from "./SoundHandler";
 import {displayService} from "../services/DisplayService";
+import {socketService} from "../services/SocketService";
+import {userDataHandler} from "./userDataHandler";
 
 class ModalHandler implements HandlersContract {
     /** container of all modals (parent) */
@@ -19,7 +21,7 @@ class ModalHandler implements HandlersContract {
         //all modals
         this._allModals = Array.from(this._container.querySelectorAll("[data-modal]")) as Array<HTMLElement>;
         this.bindEvents();
-
+        //open startup modal
         this.open("startup")
     }
 
@@ -82,6 +84,9 @@ class ModalHandler implements HandlersContract {
             (document.querySelector("[data-modal-el='input-music']") as HTMLInputElement)
                 .value = previousVolume.toString()
         }
+
+        const nameInput = document.querySelector("[data-el='name-input']") as HTMLInputElement;
+        userDataHandler.saveToStorage(nameInput.value)
     }
 
     /**

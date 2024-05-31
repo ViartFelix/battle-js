@@ -54,6 +54,21 @@ class DisplayService implements ServiceContact
     }
 
     /**
+     * Returns an element containing data-el attribute
+     * @param elementName
+     */
+    public getElement(elementName: string): HTMLElement
+    {
+        const el = document.querySelector(`[data-el=${elementName}]`)
+
+        if(el === null) {
+            throw new DisplayException("Element '"+ elementName +"' not found.")
+        }
+
+        return el as HTMLElement;
+    }
+
+    /**
      * Returns an element containing data-btn attribute
      * @param btnName
      */

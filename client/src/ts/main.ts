@@ -5,6 +5,7 @@ import {gameTickHandler} from "./handlers/GameTickHandler";
 import {damageHandler} from "./handlers/DamageHandler";
 import {modalHandler} from "./handlers/ModalHandler";
 import {settingsHandler} from "./handlers/SettingsHandler";
+import {userDataHandler} from "./handlers/userDataHandler";
 
 export default class main {
     /**
@@ -20,6 +21,7 @@ export default class main {
         damageHandler.init()
         modalHandler.init()
         settingsHandler.init()
+        userDataHandler.init()
     }
 
     /**
