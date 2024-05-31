@@ -18,6 +18,16 @@
             height: calc(75% - 1rem);
             display: flex;
             align-items: end;
+            position: relative;
+
+            &:has(.boss) {
+                background-image: url(/public/img/boss.gif);
+                background-repeat: no-repeat;
+                background-size: 75% 100%;
+                background-position: center bottom;
+                image-rendering: pixelated;
+                overflow: visible !important;
+            }
 
             [data-display='monster'] {
                 width: auto;
@@ -27,9 +37,23 @@
                 transform-origin: bottom center;
                 cursor: pointer;
                 user-select: none;
+                animation: monsterMovement 10s ease-in-out infinite 0s;
+
+                &:not(.dead) {
+                    transition: all 0.2s ease-in-out;
+                }
+
+                &.dead {
+                    animation: onMonsterDeath 1s ease-in-out 1;
+
+                    &~.red-filter {
+                        opacity: 1;
+                    }
+                }
 
                 &.boss {
                     transform: scale(1.5);
+
                 }
             }
         }
@@ -75,6 +99,18 @@
                 }
             }
         }
+    }
+}
+
+@keyframes onMonsterDeath {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        //red filter
+        filter: sepia(1) saturate(10000%) hue-rotate(-100deg) brightness(0.5);
+        opacity: 0;
     }
 }
 

@@ -11,7 +11,6 @@ import MoneyReceivedEvent from "../events/MoneyReceivedEvent";
 import LevelReq from "../reqRes/LevelReq";
 import {gameTickHandler} from "./GameTickHandler";
 import HandlersContract from "../contracts/HandlersContract";
-import {userDataHandler} from "./userDataHandler";
 
 class LevelsHandler implements HandlersContract
 {
@@ -30,7 +29,7 @@ class LevelsHandler implements HandlersContract
      */
     public init(): void
     {
-        this._currentLevel = new Level(100)
+        this._currentLevel = new Level(1)
         this._pb = this._currentLevel
         this.bindEvents();
         this.monsterRequest();
@@ -97,7 +96,6 @@ class LevelsHandler implements HandlersContract
 
         window.addEventListener('monsterKill', (event: MonsterKillEvent) => {
             this.handleMonsterKillEvent(event)
-            userDataHandler.sendToServer()
         })
 
         gameTickHandler.onTick(() => {
@@ -114,8 +112,11 @@ class LevelsHandler implements HandlersContract
             .addEventListener('click', (event: Event) => {
                 event.preventDefault();
                 const clickDamage = new Exponent(1)
-                const targetEvent = new MonsterDamageEvent(clickDamage)
-                window.dispatchEvent(targetEvent)
+
+                if(!this.monster.isDead) {
+                    const targetEvent = new MonsterDamageEvent(clickDamage)
+                    window.dispatchEvent(targetEvent)
+                }
             })
 
         displayService.getDisplay('previous')
@@ -157,8 +158,10 @@ class LevelsHandler implements HandlersContract
         //add progress to current level
         this._currentLevel.addToProgression()
 
-        //new monster request to the server
-        this.monsterRequest()
+        setTimeout(() => {
+            //new monster request to the server
+            this.monsterRequest()
+        }, 1000)
     }
 
     /**
@@ -193,6 +196,16 @@ class LevelsHandler implements HandlersContract
         if(this._currentLevel!= undefined) {
             this._currentLevel.updateLevelUI();
         }
+    }
+
+    /**
+     * Puts the death text on the monster display
+     * @private
+     */
+    private putDeathText()
+    {
+        this._monster.enemyHp.subtract(this._monster.originalHp)
+        this._monster.updateMonster(false);
     }
 
     get monster(): Monster { return this._monster; }

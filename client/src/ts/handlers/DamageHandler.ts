@@ -80,15 +80,25 @@ class DamageHandler implements  HandlersContract
     private updateUI()
     {
         if(levelsHandler.monster !== undefined) {
-            //current HP
-            const hpMap = levelsHandler.monster.enemyHp.getNumberMap()
-            const hp = new Exponent(hpMap).parse()
-            //original HP
-            const ogHpMap = levelsHandler.monster.originalHp.getNumberMap()
-            const ogHp = new Exponent(ogHpMap).parse()
-            //percentage of remaining HP
-            const percent: number = hp.multiply(100).divide(ogHp)
-            displayService.getDisplay('hp-bar-graph').style.width = `${percent}%`
+            if(levelsHandler.monster.isDead) {
+
+                displayService.getDisplay('hp-bar-graph')
+                    .style.width = "0%";
+
+                displayService.getDisplay('monster')
+                    .classList.add('dead')
+            } else {
+                //current HP
+                const hpMap = levelsHandler.monster.enemyHp.getNumberMap()
+                const hp = new Exponent(hpMap).parse()
+                //original HP
+                const ogHpMap = levelsHandler.monster.originalHp.getNumberMap()
+                const ogHp = new Exponent(ogHpMap).parse()
+                //percentage of remaining HP
+                const percent: number = hp.multiply(100).divide(ogHp)
+                displayService.getDisplay('hp-bar-graph').style.width = `${percent}%`
+            }
+
 
             if(levelsHandler.monster.isBoss) {
                 //date time limit

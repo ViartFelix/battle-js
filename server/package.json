@@ -1,6 +1,6 @@
 {
     "name": "server",
-    "version": "0.5.4",
+    "version": "1.0.01",
     "main": "index.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

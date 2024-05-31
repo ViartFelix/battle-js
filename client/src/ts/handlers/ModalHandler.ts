@@ -2,7 +2,6 @@ import HandlersContract from "../contracts/HandlersContract";
 import {soundHandler} from "./SoundHandler";
 import {displayService} from "../services/DisplayService";
 import {socketService} from "../services/SocketService";
-import {userDataHandler} from "./userDataHandler";
 
 class ModalHandler implements HandlersContract {
     /** container of all modals (parent) */
@@ -86,7 +85,6 @@ class ModalHandler implements HandlersContract {
         }
 
         const nameInput = document.querySelector("[data-el='name-input']") as HTMLInputElement;
-        userDataHandler.saveToStorage(nameInput.value)
     }
 
     /**

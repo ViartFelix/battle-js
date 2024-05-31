@@ -9,6 +9,7 @@ import OnTickEvent from "../events/OnTickEvent";
 
 export default class Monster extends Model
 {
+
     /** Original monster HP */
     private readonly _originalHp: Exponent;
     /** Current monster HP */
@@ -24,7 +25,7 @@ export default class Monster extends Model
     private readonly _id: number;
 
     /** "Binder" of the monster damage handler to store events  */
-    private readonly monsterDamageHandlerBound: (event: MonsterDamageEvent) => void;
+    private readonly _monsterDamageHandlerBound: (event: MonsterDamageEvent) => void;
     private readonly tickHandlerBound: (event: OnTickEvent) => void;
 
     /** Used to time if boss is dead or not */
@@ -32,6 +33,9 @@ export default class Monster extends Model
 
     /** Number of seconds for a boss to defeat him */
     private readonly _secondsForBoss: number = 30;
+
+    /** If the monster is dead or not */
+    private _isDead: boolean = false;
 
 
     constructor(monsterRep: MonsterRes)
@@ -53,7 +57,7 @@ export default class Monster extends Model
         this._id = monsterRep.id;
 
         //bind the binder to the handler
-        this.monsterDamageHandlerBound = this.monsterDamageHandler.bind(this)
+        this._monsterDamageHandlerBound = this.monsterDamageHandler.bind(this)
         this.tickHandlerBound = this.onGameTick.bind(this)
 
         this.init()
@@ -69,6 +73,9 @@ export default class Monster extends Model
             //set a time limit for the boss, not as a timeout
             this._timeLimit = new Date(Date.now() + (this._secondsForBoss * 1000));
         }
+        //we clean the previous class 'dead'
+        displayService.getDisplay('monster')
+            .classList.remove('dead');
 
         this.bindEvents()
     }
@@ -79,7 +86,7 @@ export default class Monster extends Model
      */
     private bindEvents(): void
     {
-        window.addEventListener("monsterDamage", this.monsterDamageHandlerBound);
+        window.addEventListener("monsterDamage", this._monsterDamageHandlerBound);
         //here a window listener or else you'll be thrown back at the first level if you don't defeat the boss on time
         window.addEventListener("tick", this.tickHandlerBound);
     }
@@ -89,7 +96,7 @@ export default class Monster extends Model
      */
     public unbindEvents(): void
     {
-        window.removeEventListener("monsterDamage",this.monsterDamageHandlerBound);
+        window.removeEventListener("monsterDamage",this._monsterDamageHandlerBound);
         window.removeEventListener("tick", this.tickHandlerBound);
     }
 
@@ -127,6 +134,8 @@ export default class Monster extends Model
             //tell the whole app that the monster is dead
             const changeMonster = new MonsterKillEvent()
             window.dispatchEvent(changeMonster)
+
+            this._isDead = true;
         } else {
             this.enemyHp.subtract(damage)
         }
@@ -138,7 +147,10 @@ export default class Monster extends Model
     public updateMonster(updateImage: boolean = false)
     {
         //update the hp display
-        displayService.updateDisplay('current-hp', this._enemyHp)
+        displayService.updateDisplay('current-hp', (
+            this._isDead ? "Dead !" : this._enemyHp
+        ))
+
         displayService.updateDisplay('monster-name', this._monsterName)
         //if it's a boss, then show the boss timer bar
         if(this.isBoss) {
@@ -155,9 +167,6 @@ export default class Monster extends Model
             displayService.getDisplay('monster').classList.add(this._isBoss ? 'boss' : "monster")
             displayService.getDisplay('monster').classList.remove(!this._isBoss ? 'boss' : "monster")
         }
-
-        //now, we'll update the hp & time bar
-        const hpBar = this._enemyHp
     }
 
     /**
@@ -195,4 +204,5 @@ export default class Monster extends Model
 
     get originalHp(): Exponent { return this._originalHp; }
     get secondsForBoss(): number { return this._secondsForBoss; }
+    get isDead(): boolean { return this._isDead; }
 }
